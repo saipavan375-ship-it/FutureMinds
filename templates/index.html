@@ -132,7 +132,11 @@ html.onb-open{overflow:hidden}
 
 
 const $=id=>document.getElementById(id),esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+<<<<<<< HEAD
 let TOP={},TIP={},TH={},user="",token="",Q=[],ans={},i=0,reviewing=false,busy=false,view="dash",lastReview=null,curTopic="",rewards=true,PT=3,resourceTopic="all";
+=======
+let TOP={},TIP={},TH={},user="",token="",Q=[],ans={},i=0,reviewing=false,busy=false,view="dash",lastReview=null,curTopic="",rewards=true,PT=3;
+>>>>>>> 53e2e8729e4d0cf9dddc96aa4343e28719bfa8a7
 try{user=localStorage.getItem("lw_user")||"";rewards=localStorage.getItem("lw_rewards")!=="0"}catch(e){}
 const NICK=/^[A-Za-z0-9_-]{3,30}$/,NICKMSG="Use 3 to 30 letters, numbers, - or _ (not your real name).";
 async function api(p,body){let r;try{r=await fetch(p,body===undefined?{}:{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({learner:user,...body})})}catch(e){throw new Error("Cannot reach the server. Check that app.py is still running.")}
@@ -145,12 +149,20 @@ async function render(){
  if(window.__story){window.__story.unmount();window.__story=null}
  if(!NICK.test(user)&&view!=="dash")view="dash";
  document.body.classList.toggle("v-dash",view==="dash");
+<<<<<<< HEAD
  const tabs=[["dash","Dashboard"],["learn","Learn & Practice"],["resources","Resources"],["assess","Assessments"],["plan","My Study Plan"],["progress","My Progress"]],cur=({module:"learn",quiz:"assess",results:"assess"})[view]||view;
+=======
+ const tabs=[["dash","Dashboard"],["learn","Learn & Practice"],["assess","Assessments"],["plan","My Study Plan"],["progress","My Progress"]],cur=({module:"learn",quiz:"assess",results:"assess"})[view]||view;
+>>>>>>> 53e2e8729e4d0cf9dddc96aa4343e28719bfa8a7
  $("nav").innerHTML=tabs.map(t=>`<button ${cur===t[0]?'class="on" aria-current="page"':""} onclick="go('${t[0]}')">${ico(t[0])}<span>${t[1]}</span></button>`).join("");
  $("who").innerHTML=NICK.test(user)?`<details class="prof" id="prof"><summary aria-label="Profile and settings"><span class="av" aria-hidden="true">${esc((isGuest(user)?"G":user[0]).toUpperCase())}</span><span class="pn">${esc(isGuest(user)?"Guest":user)}</span></summary><div class="menu"><p class="muted">Learning as <b>${esc(user)}</b>.${isGuest(user)?" Choose a nickname to keep a name you recognise.":""} A nickname is not a password.</p><label for="newnick"><b>Change nickname</b></label><input id="newnick" type="text" maxlength="30" autocomplete="off" aria-describedby="renmsg"><div id="renmsg" role="alert" class="bad"></div><button class="pri sm" onclick="renameUser()">Save nickname</button><hr><button class="ghost sm" onclick="toggleMotion()">${simpleOn()?"Use cinematic scroll":"Use simple view"}</button><button class="ghost sm" onclick="toggleRewards(!rewards)">${rewards?"Hide rewards":"Show rewards"}</button><button class="ghost sm" onclick="switchUser()">Switch learner</button></div></details>`:`<button class="ghost sm" onclick="openOnboarding()">Set your nickname</button>`;
  $("app").innerHTML=view==="dash"?skeleton():'<div class="card" role="status">Loading...</div>';
  try{if(!TH.strong){const m=window.__BOOT?window.__BOOT.meta:await api("/api/meta");TOP=m.topics;TIP=m.tips;TH=m.thresholds;PT=m.per_topic}
+<<<<<<< HEAD
   await({dash,learn,resources,module:moduleView,assess,quiz,results,plan,progress})[view]();if(view==="dash"&&!NICK.test(user))openOnboarding()}
+=======
+  await({dash,learn,module:moduleView,assess,quiz,results,plan,progress})[view]();if(view==="dash"&&!NICK.test(user))openOnboarding()}
+>>>>>>> 53e2e8729e4d0cf9dddc96aa4343e28719bfa8a7
  catch(e){$("app").innerHTML=`<div class="card" role="alert"><h2>Something went wrong</h2><p>${esc(e.message)}</p><button class="pri" onclick="render()">Try again</button></div>`}
  window.scrollTo(0,0)}
 function empty(msg,btn="Take the diagnostic quiz",fn="begin()"){$("app").innerHTML=`<div class="card"><h2>Nothing here yet</h2><p>${esc(msg)}</p><button class="pri" onclick="${fn}">${btn}</button></div>`}
@@ -201,7 +213,11 @@ async function progress(){if(!NICK.test(user))return needName();
  ${anyDemo?`<button class="ghost" onclick="resetAll('demo')">Remove demo data only</button> `:""}<button class="ghost" onclick="resetAll()">Delete all my attempts</button>`}
 async function resetAll(scope="all"){const demoOnly=scope==="demo";if(!confirm(demoOnly?'Remove the demo records for "'+user+'"? Your real attempts are kept.':'Delete ALL attempts for "'+user+'"? This cannot be undone.'))return;try{await api("/api/reset",{confirm:true,scope});lastReview=null;go(demoOnly?"progress":"dash")}catch(e){alert(e.message)}}
 
+<<<<<<< HEAD
 const IC={resources:'<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21z"/><path d="M4 5.5v13A2.5 2.5 0 0 1 6.5 16H20"/><path d="M8 7h8M8 10h8"/>',dash:'<rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/>',learn:'<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',assess:'<rect width="8" height="4" x="8" y="2" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/>',plan:'<rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="m9 16 2 2 4-4"/>',progress:'<path d="m22 7-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/>',star:'<path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/>',target:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>'};
+=======
+const IC={dash:'<rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/>',learn:'<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',assess:'<rect width="8" height="4" x="8" y="2" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/>',plan:'<rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="m9 16 2 2 4-4"/>',progress:'<path d="m22 7-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/>',star:'<path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/>',target:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>'};
+>>>>>>> 53e2e8729e4d0cf9dddc96aa4343e28719bfa8a7
 const ico=n=>`<svg class="ico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[n]}</svg>`;
 const hl=src=>src.replace(/(#.*)|('[^'\n]*'|"[^"\n]*")|\b(def|return|if|elif|else|for|in|while|break|continue|pass|and|or|not|True|False|None)\b|\b(\d+\.?\d*)\b|([\s\S])/g,(m,c,s,k,n,o)=>c?`<i class="c">${esc(c)}</i>`:s?`<i class="s">${esc(s)}</i>`:k?`<i class="k">${k}</i>`:n?`<i class="n">${n}</i>`:esc(o));
 const ST={"Needs practice":["▼","bad"],"Developing":["◆","mid"],"Strong":["▲","good"],"Not assessed":["○",""]};
@@ -263,6 +279,7 @@ async function dash(){
 async function learn(){if(!NICK.test(user))return needName();
  const m=(await api(mine("/api/modules"))).modules;
  $("app").innerHTML=`<div class="card"><h2>${ico("learn")} Learn Python step by step</h2><p class="muted">Each module has a short explanation, an example, and two practice activities with instant feedback.</p></div><div class="grid">${m.map(x=>`<div class="card"><div class="row"><h3>${esc(x.title)}</h3><span class="chip ${x.status==="Completed"?"good":""}">${x.status}</span></div>${x.recommended?'<span class="tag">Recommended for you</span>':""}<p class="muted">${x.solved} of ${x.total} practice items solved</p><button class="${x.recommended?"pri":"ghost"}" onclick="openModule('${x.topic}')">${x.solved?"Continue":"Open"}</button></div>`).join("")}</div>`}
+<<<<<<< HEAD
 async function resources(){
  const d=await api("/api/resources"),all=d.resources;
  const shown=resourceTopic==="all"?all:all.filter(r=>r.topic===resourceTopic);
@@ -271,6 +288,8 @@ async function resources(){
  $("app").innerHTML=`<div class="card"><h2>${ico("resources")} Learning Resources</h2><p class="muted">Browse concise, offline-friendly Python notes and open official documentation when available. Choose a topic to focus your learning.</p><label for="resourceTopic"><b>Filter by topic</b></label><select id="resourceTopic" onchange="resourceTopic=this.value;resources()" style="display:block;max-width:420px;width:100%;margin-top:8px;padding:11px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink)">${options}</select><p class="muted">Showing ${shown.length} resource${shown.length===1?"":"s"}.</p></div>`+
  (shown.length?`<div class="grid">${shown.map(r=>`<article class="card"><div class="row"><span class="chip">${esc(r.topic_name)}</span><span class="muted">${Number(r.minutes)} min</span></div><h3>${esc(r.title)}</h3><p class="muted">${esc(r.description)}</p><div class="meta"><span>${esc(kind[r.type]||r.type)}</span><span>${esc(r.difficulty)}</span></div><details><summary>Read quick notes</summary><pre>${esc(r.content)}</pre></details><div class="row" style="margin-top:12px;justify-content:flex-start">${r.url?`<a class="pri" style="text-decoration:none;display:inline-block" href="${esc(r.url)}" target="_blank" rel="noopener noreferrer">Open learning resource ↗</a>`:`<span class="muted">Offline resource</span>`}<button class="ghost" onclick="openModule('${r.topic}')">Practice this topic</button></div></article>`).join("")}</div>`:'<div class="card"><p>No resources are available for this topic yet.</p></div>');
 }
+=======
+>>>>>>> 53e2e8729e4d0cf9dddc96aa4343e28719bfa8a7
 async function moduleView(){if(!NICK.test(user))return needName();
  const m=await api(mine("/api/modules/"+curTopic)),kind={output:"Predict the output",bug:"Find the bug"};
  $("app").innerHTML=`<button class="ghost" onclick="go('learn')">Back to Learn</button><div class="card" style="margin-top:12px"><h2>${esc(m.title)}</h2><h3>The idea</h3><p>${esc(m.explain)}</p><div class="note"><b>Think of it like this:</b> ${esc(m.analogy)}</div><h3>Example</h3><pre class="code"><code>${hl(m.code)}</code></pre></div>`+m.items.map((it,n)=>`<div class="card"><div class="row"><h3>Practice ${n+1}: ${kind[it.kind]}</h3><span class="chip ${it.solved?"good":""}" id="st_${it.id}">${it.solved?"Solved":"Not solved yet"}</span></div><p>${esc(it.prompt)}</p>${it.code?`<pre class="code"><code>${hl(it.code)}</code></pre>`:""}<div role="group" aria-label="Answer options">${it.options.map((o,k)=>`<button class="opt" onclick="answerItem('${it.id}',${k})">${String.fromCharCode(65+k)}. ${esc(o)}</button>`).join("")}</div><div id="fb_${it.id}" role="status"></div></div>`).join("")+`<div class="card"><h3>Key takeaway</h3><p>${esc(m.takeaway)}</p><div class="row"><button class="ghost" onclick="go('learn')">Back to Learn</button><button class="pri" onclick="begin()">Take the diagnostic quiz</button></div></div>`}

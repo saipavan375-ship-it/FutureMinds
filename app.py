@@ -362,6 +362,7 @@ def pending_topics(name):
     return {t["topic"] for t in logic.build_plan(at[-1]["t"], RES_BY_TOPIC) if t["topic"] and t["id"] not in done}
 
 
+<<<<<<< HEAD
 @app.get("/api/resources")
 def resources():
     """Public learning-resource catalogue; contains curated learning content, never learner records."""
@@ -373,6 +374,8 @@ def resources():
     } for r in RESOURCES])
 
 
+=======
+>>>>>>> 53e2e8729e4d0cf9dddc96aa4343e28719bfa8a7
 @app.get("/api/modules")
 def modules():
     name = learner_id(request.args.get("learner"))

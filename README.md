@@ -56,8 +56,12 @@ macOS/Linux: use `python3` and `.venv/bin/python`.
 - Security is prototype-level (no login). Run it on localhost. A real deployment needs accounts, authorization, HTTPS and a privacy review.
 
 ## Status
+<<<<<<< HEAD
 - Latest finishing pass: added a dedicated Resources navigation page and `/api/resources` catalogue. Students can filter the 16 curated resources by topic, read offline notes, open official external documentation when available, or jump directly into topic practice.
 - Complete: dashboard redesign, 6-item navigation including a topic-filtered resource library, learning modules with practice and feedback, rewards with idempotent XP and badges, weekly plan with saved task completion, prerequisite-aware recommendations, results with strengths and next lessons, demo flag, migration, export, logging, tests.
+=======
+- Complete: dashboard redesign, 5-item navigation, learning modules with practice and feedback, rewards with idempotent XP and badges, weekly plan with saved task completion, prerequisite-aware recommendations, results with strengths and next lessons, demo flag, migration, export, logging, tests.
+>>>>>>> 53e2e8729e4d0cf9dddc96aa4343e28719bfa8a7
 - Partial: the scroll effect was tested by unit-testing its maths and by a simulated browser (jsdom) with simulated scroll positions, never in a real browser, so check smoothness, spacing and clipping on your own laptop and phone before presenting; the app is now dark-theme only (no light mode); navigation labels are Dashboard, Learn & Practice, Assessments, My Study Plan and My Progress; there is no celebration animation beyond toast messages; practice formats are predict-the-output and find-the-bug only (no fill-in-the-code); the learning content covers the 8 core topics (not tuples, exceptions, files, OOP); layout was checked in a simulated browser and by computed colour contrast, not on real devices or with a screen reader; docs.python.org links: controlflow.html was found in a search, datastructures.html only through a mirrored copy, introduction.html only for an older Python version, errors.html not confirmed. Open all four before the demo (offline summaries always shown).
 - Not implemented: ML model, grounded study assistant, teacher view, login, leaderboards (deliberately omitted).
 
