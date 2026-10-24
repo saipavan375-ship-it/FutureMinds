@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#050a1c">
+<title>LearnWise AI by FutureMinds</title>
+<style>
+:root{--bg:#050a1c;--card:#0d1736;--ink:#eaf1ff;--mut:#a3b3da;--line:#24336a;--acc:#22d3ee;--acc2:#a78bfa;--good:#34d399;--mid:#fbbf24;--bad:#fb923c;--chipbg:#17244f;--tint:#0d2b3d;--onacc:#04121f;--shadow:0 24px 60px #0009;color-scheme:dark}
+*{box-sizing:border-box}html{overflow-x:clip;scroll-padding-top:84px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Segoe UI",system-ui,-apple-system,Roboto,sans-serif;overflow-x:clip}
+#bg{position:fixed;inset:0;z-index:-1;overflow:hidden;background:radial-gradient(60% 50% at 12% 8%,#1d3a8a55,transparent 70%),radial-gradient(50% 45% at 88% 18%,#6d28d944,transparent 70%),radial-gradient(60% 50% at 50% 105%,#0e749055,transparent 70%),var(--bg)}
+#bg::after{content:"";position:absolute;inset:0;background-image:linear-gradient(#ffffff0a 1px,transparent 1px),linear-gradient(90deg,#ffffff0a 1px,transparent 1px);background-size:56px 56px;-webkit-mask-image:radial-gradient(ellipse at 50% 30%,#000 25%,transparent 75%);mask-image:radial-gradient(ellipse at 50% 30%,#000 25%,transparent 75%)}
+h1,h2,h3{margin:0 0 8px;line-height:1.25}h1{font-size:30px}h2{font-size:20px;display:flex;align-items:center;gap:8px}h3{font-size:16px;margin-top:12px}
+.skip{position:absolute;left:-999px}.skip:focus{left:8px;top:8px;background:var(--card);padding:8px 12px;border-radius:8px;z-index:100}
+#hdr{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:14px;padding:10px 18px;background:#050a1cdb;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:10px;flex:0 0 auto}.logo{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--acc),#3b82f6 60%,#8b5cf6);display:grid;place-items:center;color:var(--onacc);font-weight:800}
+#nav{flex:1;min-width:0;display:flex;gap:6px;overflow-x:auto;padding:2px 0}
+#nav button{display:flex;align-items:center;gap:6px;flex:0 0 auto;border:1px solid var(--line);background:#ffffff08;color:var(--ink);padding:8px 13px;border-radius:999px;font-weight:600;font-size:14px;font-family:inherit;cursor:pointer}
+#nav button:hover{border-color:var(--acc)}#nav button.on{background:linear-gradient(135deg,#22d3ee,#3b82f6);color:var(--onacc);border-color:transparent}
+#who{flex:0 0 auto;display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+body:not(.v-dash) #app{max-width:1000px;margin:0 auto;padding:18px 16px}
+.foot{max-width:1000px;margin:18px auto;padding:0 16px}
+.card{background:linear-gradient(160deg,#111e4af2,#0b1433f2);border:1px solid #2a3b7c;border-radius:18px;padding:18px;margin-bottom:12px;box-shadow:var(--shadow)}
+.card.accent{border-left:6px solid var(--acc)}
+.hero{background:linear-gradient(135deg,#142a6b,#3b2a8f 58%,#0e7490);border:1px solid #3a4c9a;color:#fff;border-radius:22px;padding:24px;margin-bottom:12px}
+.hero p{margin:0 0 12px;opacity:.93}.loop{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 0}.loop span{background:#ffffff22;border-radius:8px;padding:6px 10px;font-size:13px;font-weight:600}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;align-items:start}
+.muted{color:var(--mut);font-size:14px}.row{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+button{font-family:inherit}
+.pri,.ghost{border-radius:12px;padding:11px 18px;font-size:15px;font-weight:700;cursor:pointer;border:1px solid var(--acc)}
+.pri{background:linear-gradient(135deg,#22d3ee,#3b82f6);color:var(--onacc);border-color:transparent;transition:box-shadow .2s,transform .2s}
+.pri:hover{box-shadow:0 0 28px #22d3ee66}.ghost{background:transparent;color:var(--acc)}.ghost:hover{background:#22d3ee14}.sm{padding:6px 11px;font-size:13px}
+.pri:disabled,.ghost:disabled{opacity:.4;cursor:not-allowed}
+.hero .pri{background:#fff;color:#142a6b}.hero .ghost{color:#fff;border-color:#ffffff88}
+button:focus-visible,input:focus-visible,summary:focus-visible,a:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.opt{display:block;width:100%;text-align:left;margin:8px 0;padding:12px 13px;border-radius:12px;border:1.5px solid var(--line);background:#ffffff06;color:var(--ink);font-size:15px;cursor:pointer}
+.opt:hover{border-color:var(--acc)}.opt.sel{border-color:var(--acc);background:var(--chipbg);font-weight:700}
+.pb{height:6px;background:#ffffff1a;border-radius:6px;margin:8px 0 16px;overflow:hidden}.pb i{display:block;height:100%;background:linear-gradient(90deg,var(--acc),#8b5cf6)}
+.bar{height:10px;background:#ffffff17;border-radius:6px;margin:8px 0 6px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--acc),#3b82f6)}
+i.bad{background:var(--bad)}i.mid{background:var(--mid)}i.good{background:var(--good)}i.none{background:transparent}
+.bad{color:var(--bad)}.mid{color:var(--mid)}.good{color:var(--good)}
+.chip{font-size:13px;font-weight:700;padding:3px 10px;border-radius:999px;background:var(--chipbg)}
+.tag{display:inline-block;font-size:12px;font-weight:700;padding:2px 8px;border-radius:6px;background:var(--tint);color:var(--acc);margin-right:6px}
+.badge{font-size:12px;font-weight:700;padding:2px 8px;border-radius:6px;background:var(--chipbg);color:var(--mid)}
+.big{font-size:44px;font-weight:800;color:var(--acc);line-height:1.1}
+.meta{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0}.meta span{background:var(--chipbg);border-radius:8px;padding:3px 10px;font-size:13px;font-weight:600}
+.mrow{margin:12px 0}
+.task{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-top:1px solid var(--line)}.task:first-of-type{border-top:0}
+.task input{width:22px;height:22px;margin-top:2px;accent-color:var(--acc)}.task.done b{text-decoration:line-through;opacity:.6}
+.bdg{border:1px dashed var(--line);border-radius:10px;padding:8px 10px;margin:6px 0}.bdg.on{border:1px solid var(--acc);background:var(--tint)}
+table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line)}
+.note{border-left:4px solid var(--acc);background:var(--tint);padding:10px 12px;border-radius:0 10px 10px 0;font-size:14px;margin-top:10px}
+input[type=text]{width:100%;margin-top:8px;padding:11px;border-radius:10px;border:1.5px solid var(--line);background:#ffffff0d;color:var(--ink);font:inherit}
+.opt-toggle{display:block;margin:14px 0}details{margin-top:6px}summary{cursor:pointer;color:var(--acc);font-weight:700}
+pre{white-space:pre-wrap;background:#070d26;border:1px solid var(--line);border-radius:12px;padding:12px;font-size:13.5px;overflow-x:auto;margin:6px 0}
+pre.code{font-family:Consolas,"Courier New",monospace}.code i{font-style:normal}.code .k{color:var(--acc);font-weight:700}.code .s{color:var(--good)}.code .c{color:var(--mut)}.code .n{color:var(--mid)}
+svg{max-width:100%;height:auto;display:block;margin:0 auto}svg.ico{display:inline-block;margin:0}.ico{flex:0 0 auto}
+#toast{position:fixed;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:60}
+.toast{background:#eaf1ff;color:#050a1c;padding:10px 14px;border-radius:10px;margin-top:6px;box-shadow:var(--shadow);font-weight:700}
+/* ---------- scroll story ---------- */
+.story{position:relative}
+.scene{scroll-margin-top:84px;margin:0 0 18px;padding:0 16px}
+.panel{width:min(1180px,100%);margin:0 auto;border:1px solid #2f4390;border-radius:26px;padding:clamp(14px,2.2vh,24px);background:linear-gradient(160deg,#111e4afa,#0a1330fa);box-shadow:var(--shadow),0 0 60px #22d3ee1f,inset 0 1px 0 #ffffff14}
+.story.cine{height:var(--h)}
+.story.cine .stage{position:sticky;top:var(--hdr,64px);height:var(--stage,calc(100vh - 64px));overflow:hidden;perspective:1400px;perspective-origin:50% 35%}
+.story.cine .scene{position:absolute;inset:0;margin:0;padding:0;display:grid;place-items:center;transform-origin:50% 42%;will-change:transform,opacity;backface-visibility:hidden}
+.story.cine .panel{width:min(1180px,calc(100% - 32px))}
+.story.cine .s1{z-index:6}.story.cine .s2{z-index:5}.story.cine .s3{z-index:4}.story.cine .s4{z-index:3}.story.cine .s5{z-index:2}.story.cine .s6{z-index:1}
+.story.cine .s1 .panel{min-height:calc(var(--stage,560px) - 28px)}
+.story.js:not(.cine) .panel{opacity:0;transform:translateY(16px) scale(.985);transition:opacity .6s ease,transform .6s ease}
+.story.js:not(.cine) .scene.seen .panel{opacity:1;transform:none}
+.dots{display:none}.story.cine .dots{display:flex;position:fixed;right:14px;top:50%;transform:translateY(-50%);flex-direction:column;gap:6px;z-index:40}
+.dots button{width:26px;height:26px;border-radius:50%;border:0;background:transparent;cursor:pointer;display:grid;place-items:center;padding:0}
+.dots button::after{content:"";width:10px;height:10px;border-radius:50%;background:#ffffff40;border:1px solid #ffffff55;transition:all .25s}
+.dots button[aria-current]::after{background:var(--acc);box-shadow:0 0 12px var(--acc);transform:scale(1.3)}
+.dots button:focus-visible{outline:3px solid var(--acc);outline-offset:1px}
+.dtop{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:12px}.dtop h1{font-size:clamp(22px,3.2vh,30px);margin:0}
+.pills{display:flex;gap:8px;flex-wrap:wrap}.pill{border:1px solid #2f4390;background:#ffffff0a;border-radius:999px;padding:5px 12px;font-size:13px;font-weight:700;display:inline-flex;gap:6px;align-items:center}
+.dgrid{display:grid;grid-template-columns:1fr 1.5fr 1.1fr;gap:12px}.jgrid,.cgrid,.agrid{display:grid;grid-template-columns:1.1fr 1fr;gap:14px}
+.col{display:flex;flex-direction:column;gap:12px;min-width:0}
+.tile{background:#ffffff08;border:1px solid #ffffff17;border-radius:18px;padding:clamp(10px,1.6vh,16px)}.tile h3{margin:0 0 8px;font-size:14px;color:var(--mut);font-weight:600}
+.rings{display:flex;gap:12px;justify-content:space-around;flex-wrap:wrap}.ring{position:relative;width:100px;height:100px}.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .trk{fill:none;stroke:#ffffff1c;stroke-width:9}.ring .val{fill:none;stroke:url(#lg);stroke-width:9;stroke-linecap:round;stroke-dasharray:var(--c);stroke-dashoffset:calc(var(--c)*(1 - var(--p)/100));transition:stroke-dashoffset 1.4s cubic-bezier(.2,.7,.2,1)}
+.story.js .scene:not(.seen) .ring .val{stroke-dashoffset:var(--c)}
+.rv{position:absolute;inset:0;display:grid;place-content:center;text-align:center}.rv b{font-size:21px}.rv span{font-size:11px;color:var(--mut)}
+.two{display:flex;gap:10px;justify-content:space-around;margin-top:10px;text-align:center}.two b{display:block;font-size:22px;color:var(--acc)}
+.wbars{display:flex;align-items:flex-end;gap:8px;height:96px}.wb{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;font-size:11px;color:var(--mut);gap:2px}
+.wb i{display:block;width:100%;max-width:28px;border-radius:7px 7px 2px 2px;background:linear-gradient(180deg,var(--acc),#3b82f6);height:var(--bh);transition:height 1s cubic-bezier(.2,.7,.2,1)}.wb.z i{background:#ffffff1f}
+.story.js .scene:not(.seen) .wb i{height:4px}
+.path{display:flex;justify-content:space-between;gap:2px;position:relative;margin-top:6px}.path::before{content:"";position:absolute;left:6%;right:6%;top:17px;height:2px;background:linear-gradient(90deg,var(--acc),#8b5cf6);opacity:.45}
+.node{position:relative;background:none;border:0;color:var(--ink);display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;cursor:pointer;flex:1;min-width:0;padding:0}
+.node .c{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:#0a1330;border:2px solid var(--line);font-weight:700;font-size:14px}
+.node.sS .c{border-color:var(--good);color:var(--good)}.node.sD .c{border-color:var(--mid);color:var(--mid)}.node.sP .c{border-color:var(--bad);color:var(--bad)}
+.node:hover .c{box-shadow:0 0 14px #22d3ee66}
+.cta{width:100%;margin-top:10px;font-size:16px;padding:13px 18px}
+.tl{border-left:2px solid #2f4390;margin-left:8px;padding-left:18px}.ti{position:relative;margin:0 0 10px}
+.ti::before{content:"";position:absolute;left:-25px;top:6px;width:12px;height:12px;border-radius:50%;background:#0a1330;border:2px solid var(--acc)}.ti.done::before{background:var(--good);border-color:var(--good)}
+.skills{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.sk{background:#ffffff08;border:1px solid #ffffff17;border-radius:16px;padding:12px}.sk b{display:block}
+.final{text-align:center;padding:clamp(18px,5vh,48px) 12px}.final h2{display:block;font-size:clamp(26px,5vh,44px);color:#fff;background:linear-gradient(90deg,#fff,#67e8f9 50%,#c4b5fd);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.final .row{justify-content:center;margin-top:16px}
+@media (max-width:1100px){.skills{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:899px){.dgrid,.jgrid,.cgrid,.agrid{grid-template-columns:1fr}.skills{grid-template-columns:repeat(2,1fr)}#hdr{flex-wrap:wrap}#nav{order:3;flex-basis:100%}.big{font-size:38px}}
+@media (prefers-reduced-motion:no-preference){ #bg::before{content:"";position:absolute;width:60vmax;height:60vmax;left:-15vmax;top:-20vmax;background:radial-gradient(circle,#22d3ee22,transparent 60%);animation:drift 28s ease-in-out infinite alternate}@keyframes drift{to{transform:translate3d(40vw,18vh,0)}}.card,.opt,.sk{transition:border-color .2s}.pb i,.bar i{transition:width .6s ease}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.story.js .panel{opacity:1!important;transform:none!important}}
+/* onboarding, profile, tooltips, skeleton, scroll progress, lite mode */
+html.onb-open{overflow:hidden}
+.onb{position:fixed;inset:0;z-index:200;display:grid;place-items:center;padding:16px;background:#030715b3;-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+.onb.out{opacity:0;transition:opacity .25s ease}
+.onb-card{width:min(460px,100%);max-height:100%;overflow:auto;background:linear-gradient(160deg,#142054,#0a1330);border:1px solid #3a4c9a;border-radius:24px;padding:26px;box-shadow:var(--shadow),0 0 70px #22d3ee33;display:flex;flex-direction:column;gap:8px}
+.onb-card h2{display:block;font-size:24px;margin-top:6px}.onb .cta{margin-top:4px}
+@media (prefers-reduced-motion:no-preference){.onb{animation:onbIn .35s ease}.onb-card{animation:cardIn .45s cubic-bezier(.2,.8,.2,1)}@keyframes onbIn{from{opacity:0}}@keyframes cardIn{from{opacity:0;transform:translateY(14px) scale(.96)}}.skl{animation:shim 1.4s linear infinite}@keyframes shim{to{background-position:-200% 0}}}
+.prof{position:relative}.prof summary{list-style:none;display:flex;align-items:center;gap:8px;cursor:pointer;border:1px solid var(--line);border-radius:999px;padding:4px 14px 4px 4px;background:#ffffff08;color:var(--ink);font-weight:600;font-size:14px}.prof summary::-webkit-details-marker{display:none}
+.prof summary:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.av{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#22d3ee,#8b5cf6);color:var(--onacc);font-weight:800}
+.menu{position:absolute;right:0;top:calc(100% + 8px);width:min(300px,86vw);background:#0c1536;border:1px solid #3a4c9a;border-radius:16px;padding:14px;box-shadow:var(--shadow);z-index:70;display:flex;flex-direction:column;gap:6px;text-align:left;font-weight:400}
+.menu hr{border:0;border-top:1px solid var(--line);margin:6px 0;width:100%}.menu p{margin:0}
+.tip{position:relative;border-bottom:1px dotted var(--mut);cursor:help}
+.tip::after{content:attr(data-tip);position:absolute;left:50%;top:calc(100% + 8px);transform:translateX(-50%);width:max-content;max-width:240px;background:#eaf1ff;color:#050a1c;font-size:12.5px;font-weight:600;line-height:1.4;padding:8px 10px;border-radius:10px;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:opacity .15s;z-index:30;text-align:left}
+.tip.r::after{left:auto;right:0;transform:none}.tip:hover::after,.tip:focus-visible::after{opacity:1}.tip:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.skl{background:linear-gradient(90deg,#ffffff0d,#ffffff1f,#ffffff0d);background-size:200% 100%;border-radius:14px}.skl.h1{height:34px;width:42%}.skl.h2{height:170px}
+#sp{position:absolute;left:0;right:0;bottom:-1px;height:2px;pointer-events:none}#sp i{display:block;height:100%;transform-origin:0 50%;transform:scaleX(var(--sp,0));background:linear-gradient(90deg,var(--acc),#8b5cf6)}body:not(.v-dash) #sp{display:none}
+.story.js.lite:not(.cine) .panel{opacity:1;transform:none;transition:none;will-change:transform,opacity}
+@media (max-width:600px){.pn{display:none}.prof summary{padding:4px}#hdr{padding:8px 12px}.panel{border-radius:20px}.dtop h1{font-size:22px}}
+
+/* ---------- richer 3D learning universe ---------- */
+.ico{transform-style:preserve-3d;filter:drop-shadow(0 3px 5px #22d3ee25);transition:transform .35s cubic-bezier(.2,.8,.2,1),filter .35s;animation:iconLevitate 4.8s ease-in-out infinite;will-change:transform}
+#nav button:nth-child(2n) .ico{animation-delay:-1.2s}#nav button:nth-child(3n) .ico{animation-delay:-2.4s}
+#nav button:hover .ico,.pri:hover .ico,.ghost:hover .ico{transform:perspective(160px) rotateX(-18deg) rotateY(18deg) translateZ(8px) scale(1.18);filter:drop-shadow(0 5px 7px #22d3ee70)}
+.logo{position:relative;isolation:isolate;box-shadow:0 8px 24px #22d3ee30,inset 0 1px 0 #ffffff80;transform-style:preserve-3d;animation:logoFloat 5s ease-in-out infinite}
+.logo::after{content:"";position:absolute;inset:-4px;border:1px solid #67e8f955;border-radius:15px;transform:translateZ(-8px) rotate(12deg);z-index:-1}
+.tile,.sk,.card{transform-style:preserve-3d;transform:perspective(1100px) rotateX(var(--tilt-x,0deg)) rotateY(var(--tilt-y,0deg)) translateZ(0);transition:transform .22s ease,border-color .25s,box-shadow .25s;backface-visibility:hidden}
+.tile:hover,.sk:hover,.card:hover{border-color:#4f6fd0;box-shadow:0 20px 48px #0006,0 0 24px #22d3ee0c}
+.tile h3,.sk b{transform:translateZ(8px)}
+.hero3d{position:relative;isolation:isolate;min-height:158px;display:grid;grid-template-columns:minmax(0,1fr) minmax(180px,.78fr);align-items:center;gap:14px;overflow:hidden;margin:0 0 13px;padding:17px 20px;border:1px solid #6b76e866;border-radius:22px;background:linear-gradient(115deg,#102c59d9,#251c59d9 58%,#063d52d9);box-shadow:inset 0 1px 0 #ffffff20,0 15px 35px #0003}
+.hero3d::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(circle at 77% 48%,#22d3ee26,transparent 32%),linear-gradient(115deg,transparent 20%,#ffffff05 50%,transparent 75%)}
+.hero3d h2{font-size:clamp(18px,2.4vw,25px);margin:0 0 7px;display:block}.hero3d p{max-width:480px;margin:0;color:#cbd8ff;font-size:13px}.hero3d .eyebrow{font-size:10px;letter-spacing:.19em;font-weight:800;color:#67e8f9;margin-bottom:7px}
+.hero-tags{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}.hero-tags span{font-size:11px;font-weight:700;border:1px solid #ffffff20;background:#ffffff0b;border-radius:999px;padding:4px 9px;color:#e4eaff}
+.orbit-scene{position:relative;height:138px;min-width:0;perspective:500px;transform-style:preserve-3d}
+.orb-core{position:absolute;left:50%;top:50%;width:78px;height:78px;display:grid;place-items:center;border-radius:50%;transform:translate(-50%,-50%);background:radial-gradient(circle at 30% 23%,#e0fbff 0,#67e8f9 9%,#3989ed 35%,#5143b9 67%,#17164c 100%);box-shadow:inset -10px -12px 20px #080d35b3,inset 5px 5px 12px #ffffffb0,0 0 24px #22d3ee70,0 0 55px #8b5cf633;animation:orbBob 4s ease-in-out infinite;transform-style:preserve-3d}
+.orb-core::before{content:"";position:absolute;inset:8px 15px 48px 12px;border-radius:50%;background:linear-gradient(120deg,#ffffffaa,transparent);filter:blur(2px)}.orb-core span{font-size:20px;font-weight:900;letter-spacing:-.05em;color:#f0fdff;text-shadow:0 2px 8px #061334;transform:translateZ(18px)}
+.orbit{position:absolute;left:50%;top:50%;width:136px;height:50px;border:1px solid #67e8f9a0;border-radius:50%;box-shadow:0 0 10px #22d3ee1a;transform:translate(-50%,-50%) rotate(-24deg) rotateX(62deg);animation:orbitSpin 9s linear infinite}
+.orbit.o2{width:116px;height:116px;border-color:#a78bfa88;transform:translate(-50%,-50%) rotateX(68deg) rotateY(35deg);animation:orbitSpin2 12s linear infinite}.orbit.o3{width:158px;height:64px;border-color:#60a5fa77;transform:translate(-50%,-50%) rotate(52deg) rotateX(64deg);animation:orbitSpin 14s linear infinite reverse}
+.float-token{position:absolute;display:grid;place-items:center;width:35px;height:35px;border:1px solid #ffffff3b;border-radius:12px;background:linear-gradient(145deg,#ffffff24,#111b4bc9);box-shadow:0 9px 20px #0005,inset 0 1px 0 #ffffff30;color:#a5f3fc;backdrop-filter:blur(8px);transform-style:preserve-3d;animation:tokenFloat 4s ease-in-out infinite}
+.float-token .ico{width:18px;height:18px;animation:none}.float-token.t1{left:8%;top:17%;animation-delay:-.7s}.float-token.t2{right:9%;top:10%;color:#c4b5fd;animation-delay:-1.8s}.float-token.t3{right:14%;bottom:4%;color:#fde68a;animation-delay:-2.6s}.float-token.t4{left:18%;bottom:1%;color:#86efac;animation-delay:-1.3s}
+.story.cine .hero3d{transform:translateZ(10px)}
+@keyframes iconLevitate{0%,100%{transform:translateY(0) rotateX(0) rotateY(0)}50%{transform:translateY(-2px) rotateX(7deg) rotateY(-8deg)}}
+@keyframes logoFloat{0%,100%{transform:translateY(0) rotateY(0)}50%{transform:translateY(-3px) rotateY(8deg)}}
+@keyframes orbBob{0%,100%{translate:0 0;scale:1}50%{translate:0 -5px;scale:1.04}}
+@keyframes orbitSpin{0%{rotate:0deg}100%{rotate:360deg}}
+@keyframes orbitSpin2{0%{rotate:0deg}100%{rotate:-360deg}}
+@keyframes tokenFloat{0%,100%{translate:0 0;rotate:0deg}50%{translate:0 -8px;rotate:5deg}}
+@media(max-width:600px){.hero3d{grid-template-columns:1fr minmax(112px,.62fr);padding:14px;min-height:145px;gap:4px}.orbit-scene{height:122px}.orb-core{width:62px;height:62px}.orbit{width:108px;height:42px}.orbit.o2{width:92px;height:92px}.orbit.o3{width:126px;height:54px}.float-token{width:29px;height:29px;border-radius:10px}.hero3d p{font-size:12px}.hero-tags{gap:5px}.hero-tags span{font-size:10px;padding:3px 7px}}
+@media(prefers-reduced-motion:reduce){.ico,.logo,.orb-core,.orbit,.float-token{animation:none!important}.tile,.sk,.card{transform:none!important;transition:none!important}}
+
+</style></head><body><div id="bg" aria-hidden="true"></div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#22d3ee"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs></svg>
+<a class="skip" href="#app">Skip to content</a>
+<header id="hdr"><div class="brand"><div class="logo" aria-hidden="true">LW</div><div><b>LearnWise AI</b><div class="muted">by FutureMinds</div></div></div><nav id="nav" aria-label="Main"></nav><div id="who" class="muted"></div><div id="sp" aria-hidden="true"><i></i></div></header>
+<main id="app" tabindex="-1"></main><div id="toast" aria-live="polite"></div>
+<p class="muted foot">Prototype for learning support, not grading. Status bands are rules, scores are calculations, and no trained ML model is used yet. A nickname is not a password. Answers are checked on the server.</p>
+<script>window.__BOOT={{ boot|tojson }};</script>
+<script src="/static/story.js"></script>
+<script>
+
+
+const $=id=>document.getElementById(id),esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let TOP={},TIP={},TH={},user="",token="",Q=[],ans={},i=0,reviewing=false,busy=false,view="dash",lastReview=null,curTopic="",rewards=true,PT=3,resourceTopic="all";
+try{user=localStorage.getItem("lw_user")||"";rewards=localStorage.getItem("lw_rewards")!=="0"}catch(e){}
+const NICK=/^[A-Za-z0-9_-]{3,30}$/,NICKMSG="Use 3 to 30 letters, numbers, - or _ (not your real name).";
+async function api(p,body){let r;try{r=await fetch(p,body===undefined?{}:{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({learner:user,...body})})}catch(e){throw new Error("Cannot reach the server. Check that app.py is still running.")}
+ let j={};try{j=await r.json()}catch(e){}if(!r.ok)throw new Error(j.error||"Something went wrong. Please try again.");return j}
+const mine=p=>p+"?learner="+encodeURIComponent(user);
+const pct=(c,n)=>Math.floor(100*c/n+.5);
+const band=p=>p<TH.needs_practice?["Needs practice","▼","bad"]:p<TH.strong?["Developing","◆","mid"]:["Strong","▲","good"];
+function go(v){if(busy)return;view=v;render()}
+async function render(){
+ if(window.__story){window.__story.unmount();window.__story=null}
+ if(!NICK.test(user)&&view!=="dash")view="dash";
+ document.body.classList.toggle("v-dash",view==="dash");
+ const tabs=[["dash","Dashboard"],["learn","Learn & Practice"],["resources","Resources"],["assess","Assessments"],["plan","My Study Plan"],["progress","My Progress"]],cur=({module:"learn",quiz:"assess",results:"assess"})[view]||view;
+ $("nav").innerHTML=tabs.map(t=>`<button ${cur===t[0]?'class="on" aria-current="page"':""} onclick="go('${t[0]}')">${ico(t[0])}<span>${t[1]}</span></button>`).join("");
+ $("who").innerHTML=NICK.test(user)?`<details class="prof" id="prof"><summary aria-label="Profile and settings"><span class="av" aria-hidden="true">${esc((isGuest(user)?"G":user[0]).toUpperCase())}</span><span class="pn">${esc(isGuest(user)?"Guest":user)}</span></summary><div class="menu"><p class="muted">Learning as <b>${esc(user)}</b>.${isGuest(user)?" Choose a nickname to keep a name you recognise.":""} A nickname is not a password.</p><label for="newnick"><b>Change nickname</b></label><input id="newnick" type="text" maxlength="30" autocomplete="off" aria-describedby="renmsg"><div id="renmsg" role="alert" class="bad"></div><button class="pri sm" onclick="renameUser()">Save nickname</button><hr><button class="ghost sm" onclick="toggleMotion()">${simpleOn()?"Use cinematic scroll":"Use simple view"}</button><button class="ghost sm" onclick="toggleRewards(!rewards)">${rewards?"Hide rewards":"Show rewards"}</button><button class="ghost sm" onclick="switchUser()">Switch learner</button></div></details>`:`<button class="ghost sm" onclick="openOnboarding()">Set your nickname</button>`;
+ $("app").innerHTML=view==="dash"?skeleton():'<div class="card" role="status">Loading...</div>';
+ try{if(!TH.strong){const m=window.__BOOT?window.__BOOT.meta:await api("/api/meta");TOP=m.topics;TIP=m.tips;TH=m.thresholds;PT=m.per_topic}
+  await({dash,learn,resources,module:moduleView,assess,quiz,results,plan,progress})[view]();if(view==="dash"&&!NICK.test(user))openOnboarding()}
+ catch(e){$("app").innerHTML=`<div class="card" role="alert"><h2>Something went wrong</h2><p>${esc(e.message)}</p><button class="pri" onclick="render()">Try again</button></div>`}
+ window.scrollTo(0,0)}
+function empty(msg,btn="Take the diagnostic quiz",fn="begin()"){$("app").innerHTML=`<div class="card"><h2>Nothing here yet</h2><p>${esc(msg)}</p><button class="pri" onclick="${fn}">${btn}</button></div>`}
+const needName=()=>{view="dash";render()};
+function begin(){if(!NICK.test(user))return openOnboarding();token="";view="quiz";render()}
+async function demo(){if(!NICK.test(user))return openOnboarding();try{await api("/api/demo",{});go("dash")}catch(e){alert(e.message)}}
+async function quiz(){if(!NICK.test(user))return needName();
+ if(!token){const d=await api("/api/quiz",{});token=d.token;Q=d.questions;ans={};i=0;reviewing=false}draw()}
+function draw(){if(reviewing)return review();const q=Q[i],last=i===Q.length-1;
+ $("app").innerHTML=`<div class="card"><div class="muted">Question ${i+1} of ${Q.length}, ${esc(TOP[q.topic])}</div><div class="pb"><i style="width:${i/Q.length*100}%"></i></div><h2>${esc(q.text)}</h2><div role="radiogroup" aria-label="Answer options">${q.options.map((o,k)=>`<button class="opt${ans[q.id]===k?" sel":""}" role="radio" aria-checked="${ans[q.id]===k}" onclick="pick(${k})">${String.fromCharCode(65+k)}. ${esc(o)}</button>`).join("")}</div><div class="row" style="margin-top:14px"><button class="ghost" onclick="move(-1)" ${i?"":"disabled"}>Back</button><button class="pri" onclick="move(1)" ${ans[q.id]==null?"disabled":""}>${last?"Review answers":"Next"}</button></div></div>`}
+function pick(k){ans[Q[i].id]=k;draw()}
+function move(d){if(i===Q.length-1&&d===1)reviewing=true;else i+=d;draw()}
+function review(){const left=Q.filter(q=>ans[q.id]==null).length;
+ $("app").innerHTML=`<div class="card"><h2>Review your answers</h2><p class="muted">${left?`${left} question${left>1?"s":""} still unanswered.`:"All questions are answered. Submitting is final."}</p>`+Q.map((q,n)=>`<div class="task"><div style="flex:1"><b>${n+1}. ${esc(q.text)}</b><div class="muted">${ans[q.id]==null?"Not answered":"Your answer: "+String.fromCharCode(65+ans[q.id])+". "+esc(q.options[ans[q.id]])}</div></div><button class="ghost" onclick="reviewing=false;i=${n};draw()">Change</button></div>`).join("")+`<div class="row" style="margin-top:12px"><button class="ghost" onclick="reviewing=false;i=0;draw()">Back to questions</button><button class="pri" id="sub" onclick="submit()" ${left?"disabled":""}>Submit final answers</button></div><div id="err" role="alert" class="bad"></div></div>`}
+async function submit(){if(busy||!confirm("Submit your final answers? You cannot change them afterwards."))return;busy=true;$("sub").disabled=true;$("sub").textContent="Submitting...";
+ try{const d=await api("/api/submit",{token,answers:ans});lastReview={id:d.attempt_id,items:d.review};token="";busy=false;go("results");if(d.xp)toast(`+${d.xp} XP`);d.badges.forEach(b=>toast("Badge earned: "+b))}
+ catch(e){busy=false;$("sub").disabled=false;$("sub").textContent="Submit final answers";$("err").textContent=e.message}}
+function radar(t){const keys=Object.keys(TOP),cx=130,cy=120,R=78,pt=(k,r)=>{const a=-Math.PI/2+k*2*Math.PI/keys.length;return[cx+r*Math.cos(a),cy+r*Math.sin(a)]};
+ const ring=f=>keys.map((_,k)=>pt(k,R*f).join(",")).join(" ");
+ const poly=keys.map((k,n)=>pt(n,R*(t[k]?pct(t[k][0],t[k][1])/100:0)).join(",")).join(" ");
+ return `<svg viewBox="0 0 260 240" role="img" aria-label="Score by topic"><polygon points="${ring(1)}" fill="none" stroke="var(--line)"/><polygon points="${ring(.5)}" fill="none" stroke="var(--line)"/>${keys.map((k,n)=>{const[x,y]=pt(n,R+20);return`<line x1="${cx}" y1="${cy}" x2="${pt(n,R)[0]}" y2="${pt(n,R)[1]}" stroke="var(--line)"/><text x="${x}" y="${y}" font-size="10" text-anchor="middle" fill="var(--mut)">${esc(TOP[k].split(" ")[0])}</text>`}).join("")}<polygon points="${poly}" fill="var(--acc)" fill-opacity=".25" stroke="var(--acc)" stroke-width="2"/></svg>`}
+async function results(){if(!NICK.test(user))return needName();
+ const at=(await api(mine("/api/progress"))).attempts,a=at[at.length-1];if(!a)return empty("Take the diagnostic quiz to see your topic-by-topic results.");
+ const L=lastReview&&lastReview.id===a.id?lastReview.items:[],item=x=>`<p><b>${x.ok?"Correct":"Incorrect"}: ${esc(x.text)}</b><br><span class="muted">${x.ok?"":"You chose "+esc(x.yours)+". "}Answer: ${esc(x.answer)}. ${esc(x.explanation)}</span></p>`,
+ rv=L.length?(L.some(x=>!x.ok)?`<div class="card"><h3>Questions to revisit</h3>${L.filter(x=>!x.ok).map(item).join("")}</div>`:"")+`<div class="card"><details><summary>Review all ${L.length} answers</summary>${L.map(item).join("")}</details></div>`:"";
+ $("app").innerHTML=`<div class="card"><div class="row"><div><div class="muted">Overall score, ${esc(a.d)}${a.demo?" (demo data)":""}</div><div class="big">${a.s}%</div><div class="muted">${a.correct} of ${a.total} correct</div></div><div style="width:260px;max-width:100%">${radar(a.t)}</div></div></div>`+summary(a)+
+ Object.keys(TOP).map(k=>{const t=a.t[k];if(!t)return`<div class="card"><div class="row"><h3>${esc(TOP[k])}</h3><span class="chip">Not assessed</span></div><div class="muted">No questions on this topic in this attempt.</div></div>`;
+  const[c,n]=t,p=pct(c,n),b=band(p);return`<div class="card"><div class="row"><h3>${esc(TOP[k])}</h3><span class="chip ${b[2]}">${b[1]} ${b[0]}</span></div><div class="bar"><i class="${b[2]}" style="width:${p}%"></i></div><div class="muted">${c} of ${n} correct (${p}%).${n<TH.min_evidence?" Too few questions for a reliable estimate.":" A small sample, so treat it as a first signal."}</div><div class="note"><b>Why:</b> ${p}% is in the ${b[0].toLowerCase()} band. ${p<TH.strong?esc(TIP[k]):"Try a challenge task to check retention."}</div></div>`}).join("")+rv+`<div class="row"><button class="pri" onclick="go('plan')">Open my study plan</button><button class="ghost" onclick="begin()">Retake the assessment</button></div>`}
+const taskHtml=(t,aid)=>`<div class="task ${t.completed?"done":""}"><input type="checkbox" id="c_${t.id}" ${t.completed?"checked":""} onchange="mark('${t.id}',this.checked,${aid})"><div><label for="c_${t.id}"><b>${esc(t.title)}</b></label><div class="muted"><span class="tag">Day ${t.day}</span>${t.minutes} min. ${esc(t.reason)}</div><div class="muted">${esc(t.action)} ${esc(t.follow_up)}</div><div class="muted"><b>Goal:</b> ${esc(t.goal)}</div>${t.topic?`<button class="ghost sm" onclick="openModule('${t.topic}')">Open learning module</button>`:`<button class="ghost sm" onclick="begin()">Start the follow-up quiz</button>`}${t.resource?`<details><summary>${esc(t.resource.title)} (${esc(t.resource.type)}, ${t.resource.minutes} min, ${t.resource.url?"summary plus official tutorial link":"written by the team"})</summary><pre>${esc(t.resource.content)}</pre>${t.resource.url?`<a href="${esc(t.resource.url)}" target="_blank" rel="noopener">Open the official Python tutorial (external site)</a>`:""}</details>`:""}</div></div>`;
+async function plan(){if(!NICK.test(user))return needName();const d=await api(mine("/api/plan"));if(!d.tasks.length)return empty("Your study plan is built from your latest quiz attempt.");
+ const left=d.tasks.filter(t=>!t.completed).length;
+ $("app").innerHTML=`<div class="card"><h2>Your study plan</h2><p class="muted">Built from your attempt on ${esc(d.attempt_label)}${d.demo?" (demo data)":""}. ${d.tasks.length} tasks over ${Math.max(...d.tasks.map(t=>t.day))} days, about ${d.total_minutes} minutes, ${left} still to do. Checked tasks are saved to your learner record. A new attempt creates a fresh plan.</p>`+d.tasks.map(t=>taskHtml(t,d.attempt_id)).join("")+`</div><button class="pri" onclick="begin()">Retake the assessment</button>`}
+async function mark(id,dn,aid){try{const r=await api("/api/plan/task",{attempt_id:aid,task_id:id,done:dn});if(r.xp)toast(`+${r.xp} XP`);r.badges.forEach(b=>toast("Badge earned: "+b));plan()}catch(e){alert(e.message);plan()}}
+async function progress(){if(!NICK.test(user))return needName();
+ const[pr,pl]=await Promise.all([api(mine("/api/progress")),api(mine("/api/plan"))]),at=pr.attempts;
+ if(!at.length)return empty("Complete the quiz to start your history. You can also load sample demo history from the Dashboard.");
+ const pts=at.slice(-8),n=pts.length,xs=k=>n>1?30+k*(260/(n-1)):160,y=s=>105-s*.85,f=at[0],l=at[at.length-1],anyDemo=at.some(a=>a.demo);
+ const ranked=Object.keys(TOP).filter(k=>l.t[k]).map(k=>({k,p:pct(l.t[k][0],l.t[k][1])})).sort((a,b)=>b.p-a.p),best=ranked[0],worst=ranked[ranked.length-1];
+ const tasks=pl.tasks||[],doneN=tasks.filter(t=>t.completed).length,pend=tasks.length-doneN,mins=tasks.filter(t=>!t.completed).reduce((s,t)=>s+t.minutes,0);
+ const next=!tasks.length?"Retake the quiz to measure your progress.":pend?`Finish your ${pend} pending task${pend>1?"s":""} (about ${mins} min), then retake the quiz.`:"All tasks are done. Retake the quiz to see whether your scores changed.";
+ const kinds={lesson:"lesson",example:"worked example",challenge:"challenge"};
+ const acts=[...at.map(a=>({t:a.at,x:`Quiz attempt: ${a.s}% (${a.correct} of ${a.total})${a.demo?" (demo)":""}`})),...pr.task_log.map(x=>{const[k,kind]=x.task_id.split("-");return{t:x.completed_at,x:"Completed task: "+(k==="recheck"?"follow-up quiz":(TOP[k]||k)+", "+(kinds[kind]||kind))}})].sort((a,b)=>b.t.localeCompare(a.t)).slice(0,10);
+ $("app").innerHTML=`<div class="card"><h2>Summary</h2><div class="row"><div><div class="muted">Latest score${l.demo?" (demo)":""}</div><div class="big">${l.s}%</div></div><div class="muted">${at.length} assessment${at.length>1?"s":""} saved<br>Strongest topic: ${esc(TOP[best.k])} (${best.p}%)<br>Weakest topic: ${esc(TOP[worst.k])} (${worst.p}%)<br>Study tasks: ${doneN} done, ${pend} pending</div></div><div class="note"><b>Next step:</b> ${esc(next)}</div><p class="muted">Based on ${l.total} questions in the latest attempt. Quiz accuracy is an estimate, not proof of mastery.</p></div>
+ <div class="card"><h2>Overall score by attempt</h2><p class="muted">${at.length>8?"Chart shows the latest 8 attempts. ":""}Hollow points are demo data.</p><svg viewBox="0 0 320 130" role="img" aria-label="Overall score across attempts"><line x1="14" y1="105" x2="306" y2="105" stroke="var(--line)"/><polyline points="${pts.map((a,k)=>xs(k)+","+y(a.s)).join(" ")}" fill="none" stroke="var(--acc)" stroke-width="3"/>${pts.map((a,k)=>`<circle cx="${xs(k)}" cy="${y(a.s)}" r="5" fill="${a.demo?"var(--card)":"var(--acc2)"}" stroke="var(--acc2)" stroke-width="2"/><text x="${xs(k)}" y="${y(a.s)-9}" font-size="11" text-anchor="middle" fill="var(--ink)">${a.s}%</text><text x="${xs(k)}" y="122" font-size="10" text-anchor="middle" fill="var(--mut)">${esc(a.d)}</text>`).join("")}</svg></div>
+ <div class="card"><h2>Attempt history</h2><div style="overflow-x:auto"><table><tr><th>Date and time</th><th>Score</th><th>Correct</th><th>Source</th></tr>${at.map(a=>`<tr><td>${esc(a.at.slice(0,16).replace("T"," "))}</td><td>${a.s}%</td><td>${a.correct}/${a.total}</td><td>${a.demo?'<span class="badge">Demo</span>':"Real"}</td></tr>`).join("")}</table></div>${anyDemo?'<div class="note">Demo attempts are sample data, not real results.</div>':""}</div>
+ <div class="card"><h2>First attempt vs latest</h2>${at.length<2?'<p class="muted">Take the quiz again to compare attempts.</p>':`<p class="muted">Overall change: ${l.s-f.s>=0?"+":""}${l.s-f.s} percentage points (${f.s}% to ${l.s}%).${f.demo!==l.demo?" These attempts mix demo and real data.":""}</p><div style="overflow-x:auto"><table><tr><th>Topic</th><th>First</th><th>Latest</th><th>Change</th></tr>`+Object.keys(TOP).map(k=>{const a=f.t[k],b=l.t[k];if(!a||!b)return`<tr><td>${esc(TOP[k])}</td><td colspan="3" class="muted">Not assessed in both attempts</td></tr>`;const pa=pct(a[0],a[1]),pb=pct(b[0],b[1]),d=pb-pa;return`<tr><td>${esc(TOP[k])}</td><td>${pa}%</td><td>${pb}%</td><td class="${d>0?"good":d<0?"bad":""}">${d>0?"▲ +":d<0?"▼ ":"= "}${d}</td></tr>`}).join("")+`</table></div><div class="note">A higher score after studying is a good sign. It does not prove the plan caused it, because question sets differ and learners may remember questions.</div>`}</div>
+ <div class="card"><h2>Learning activity</h2>${acts.map(a=>`<div class="task"><div><b>${esc(a.x)}</b><div class="muted">${esc(a.t.slice(0,16).replace("T"," "))}</div></div></div>`).join("")}</div>
+ ${anyDemo?`<button class="ghost" onclick="resetAll('demo')">Remove demo data only</button> `:""}<button class="ghost" onclick="resetAll()">Delete all my attempts</button>`}
+async function resetAll(scope="all"){const demoOnly=scope==="demo";if(!confirm(demoOnly?'Remove the demo records for "'+user+'"? Your real attempts are kept.':'Delete ALL attempts for "'+user+'"? This cannot be undone.'))return;try{await api("/api/reset",{confirm:true,scope});lastReview=null;go(demoOnly?"progress":"dash")}catch(e){alert(e.message)}}
+
+const IC={resources:'<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21z"/><path d="M4 5.5v13A2.5 2.5 0 0 1 6.5 16H20"/><path d="M8 7h8M8 10h8"/>',dash:'<rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/>',learn:'<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',assess:'<rect width="8" height="4" x="8" y="2" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/>',plan:'<rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="m9 16 2 2 4-4"/>',progress:'<path d="m22 7-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/>',star:'<path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/>',target:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>'};
+const ico=n=>`<svg class="ico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[n]}</svg>`;
+const hl=src=>src.replace(/(#.*)|('[^'\n]*'|"[^"\n]*")|\b(def|return|if|elif|else|for|in|while|break|continue|pass|and|or|not|True|False|None)\b|\b(\d+\.?\d*)\b|([\s\S])/g,(m,c,s,k,n,o)=>c?`<i class="c">${esc(c)}</i>`:s?`<i class="s">${esc(s)}</i>`:k?`<i class="k">${k}</i>`:n?`<i class="n">${n}</i>`:esc(o));
+const ST={"Needs practice":["▼","bad"],"Developing":["◆","mid"],"Strong":["▲","good"],"Not assessed":["○",""]};
+function toast(m){if(!rewards)return;const t=document.createElement("div");t.className="toast";t.textContent=m;$("toast").appendChild(t);setTimeout(()=>t.remove(),3500)}
+function toggleRewards(on){rewards=on;try{localStorage.setItem("lw_rewards",on?"1":"0")}catch(e){}render()}
+function switchUser(){user="";token="";lastReview=null;try{localStorage.removeItem("lw_user")}catch(e){}view="dash";render()}
+function openModule(t){curTopic=t;view="module";render()}
+const SC={"Strong":"sS","Developing":"sD","Needs practice":"sP","Not assessed":"sA"};
+const simpleOn=()=>{try{return localStorage.getItem("lw_simple")==="1"}catch(e){return false}};
+function toggleMotion(){try{localStorage.setItem("lw_simple",simpleOn()?"0":"1")}catch(e){}render()}
+const isGuest=n=>/^guest-[a-f0-9]{6}$/.test(n);
+const tip=(t,x,c="")=>`<span class="tip ${c}" tabindex="0" data-tip="${esc(x)}">${t}</span>`;
+const skeleton=()=>`<div class="story"><div class="stage"><section class="scene" aria-label="Loading your dashboard"><div class="panel" role="status" aria-busy="true"><div class="skl h1"></div><div class="dgrid" style="margin-top:14px"><div class="skl h2"></div><div class="skl h2"></div><div class="skl h2"></div></div></div></section></div></div>`;
+function saveUser(n){user=n;token="";lastReview=null;try{localStorage.setItem("lw_user",n)}catch(e){}}
+function openOnboarding(){if($("onb"))return;
+ const el=document.createElement("div");el.id="onb";el.className="onb";el.setAttribute("role","dialog");el.setAttribute("aria-modal","true");el.setAttribute("aria-labelledby","onbT");el.setAttribute("aria-describedby","onbD");
+ el.innerHTML=`<div class="onb-card"><div class="logo" aria-hidden="true">LW</div><h2 id="onbT">Your Python journey starts here</h2><p id="onbD" class="muted">Welcome to LearnWise AI, a personal space that finds what you should study next. Choose a nickname (not your real name) to save your progress on this device.</p><label for="onbNick"><b>Your nickname</b></label><input id="onbNick" type="text" maxlength="30" autocomplete="off" aria-describedby="onbHelp onbErr"><div id="onbHelp" class="muted">3 to 30 letters, numbers, - or _. A nickname is not a password.</div><div id="onbErr" role="alert" class="bad"></div><button id="onbGo" class="pri cta">Start My Learning Journey</button><button id="onbSkip" class="ghost cta">Skip for now and continue as a guest</button></div>`;
+ document.body.appendChild(el);document.documentElement.classList.add("onb-open");$("hdr").inert=true;$("app").inert=true;
+ const inp=$("onbNick");inp.focus();
+ const go1=()=>{const v=inp.value.trim();if(!NICK.test(v)){$("onbErr").textContent=v?NICKMSG:"Please type a nickname, or skip to continue as a guest.";inp.focus();return}closeOnb(()=>{saveUser(v);render()})};
+ const skip=()=>closeOnb(()=>{saveUser("guest-"+Array.from({length:6},()=>"0123456789abcdef"[Math.floor(Math.random()*16)]).join(""));render()});
+ $("onbGo").onclick=go1;$("onbSkip").onclick=skip;inp.onkeydown=e=>{if(e.key==="Enter")go1()};
+ el.onkeydown=e=>{if(e.key==="Escape")skip();if(e.key==="Tab"){const f=[...el.querySelectorAll("input,button")],k=f.indexOf(document.activeElement);if(e.shiftKey&&k<=0){e.preventDefault();f[f.length-1].focus()}else if(!e.shiftKey&&k===f.length-1){e.preventDefault();f[0].focus()}}}}
+function closeOnb(done){const el=$("onb");if(!el)return done();el.classList.add("out");setTimeout(()=>{el.remove();document.documentElement.classList.remove("onb-open");$("hdr").inert=false;$("app").inert=false;done();$("app").focus({preventScroll:true})},260)}
+async function renameUser(){const v=$("newnick").value.trim(),msg=$("renmsg");if(!NICK.test(v)){msg.textContent=NICKMSG;return}
+ try{await api("/api/rename",{new_name:v});saveUser(v);render()}catch(e){msg.textContent=e.message}}
+document.addEventListener("click",e=>{const p=$("prof");if(p&&p.open&&!p.contains(e.target))p.open=false});
+let spRaf=0;addEventListener("scroll",()=>{if(spRaf)return;spRaf=requestAnimationFrame(()=>{spRaf=0;const m=document.documentElement.scrollHeight-innerHeight;document.documentElement.style.setProperty("--sp",m>0?Math.min(1,scrollY/m).toFixed(4):0)})},{passive:true});
+// Desktop-only pointer tilt adds depth without affecting the scroll-story transforms.
+if(window.matchMedia&&window.matchMedia("(hover: hover) and (pointer: fine)").matches){
+ const app3d=$("app");
+ app3d.addEventListener("pointermove",e=>{const el=e.target.closest(".tile, .sk, .card");if(!el||el.closest(".onb"))return;const r=el.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;el.style.setProperty("--tilt-x",(-y*4).toFixed(2)+"deg");el.style.setProperty("--tilt-y",(x*5).toFixed(2)+"deg");});
+ app3d.addEventListener("pointerout",e=>{const el=e.target.closest(".tile, .sk, .card");if(el&&(!e.relatedTarget||!el.contains(e.relatedTarget))){el.style.setProperty("--tilt-x","0deg");el.style.setProperty("--tilt-y","0deg");}});
+}
+
+const ring=(p,t,sub,suf="%")=>{const c=(2*Math.PI*44).toFixed(1);return`<div class="ring" role="img" aria-label="${esc(t)}: ${p}${suf}"><svg viewBox="0 0 100 100" aria-hidden="true"><circle class="trk" cx="50" cy="50" r="44"/><circle class="val" cx="50" cy="50" r="44" style="--c:${c}px;--p:${Math.min(100,p)}"/></svg><div class="rv"><b data-count="${p}" data-suf="${suf}">${p}${suf}</b><span>${esc(sub)}</span></div></div>`};
+async function dash(){
+ const guest=!NICK.test(user),B=window.__BOOT,hello=isGuest(user)?"Guest":user;
+ const d=guest&&B?B.dashboard:await api(mine("/api/dashboard")),l=d.latest,nx=d.next,m=guest&&B&&d.featured===B.module.topic?B.module:await api(mine("/api/modules/"+d.featured));
+ const done=d.modules.filter(x=>x.solved===x.total).length,comp=Math.round(100*done/d.modules.length),pend=d.tasks.filter(t=>!t.completed);
+ const strong=d.topics.filter(t=>t.status==="Strong").length,prac=d.topics.filter(t=>t.pct!==null&&t.pct<TH.strong).length;
+ const act=nx.kind==="task"&&nx.topic?`openModule('${nx.topic}')`:"begin()";
+ const label=nx.kind==="task"?(nx.topic?"Continue Learning":"Take the follow-up quiz"):nx.kind==="retake"?"Retake the assessment":"Take the diagnostic quiz";
+ const pills=rewards?`<span class="pill">${ico("star")} ${tip("Level "+d.level,"Every 100 XP is one level.","r")}</span><span class="pill"><b data-count="${d.xp}">${d.xp}</b> ${tip("XP","Experience points, earned once for each finished quiz, study task, first-try practice item and module.","r")}</span><span class="pill">${tip("Day streak","Days in a row with a learning activity. Missing a day never costs you anything.","r")} <b data-count="${d.streak}">${d.streak}</b></span>`:"";
+ const maxc=Math.max(1,...d.activity.map(a=>a.count)),week=d.activity.reduce((s,a)=>s+a.count,0);
+ const bars=d.activity.map(a=>`<div class="wb ${a.count?"":"z"}" title="${esc(a.d)}: ${a.count} learning activities"><span>${a.count||""}</span><i style="--bh:${Math.max(4,Math.round(a.count/maxc*56))}px"></i><small>${esc(a.label)}</small></div>`).join("");
+ const nodes=d.topics.map(t=>{const md=d.modules.find(x=>x.topic===t.k);return`<button class="node ${SC[t.status]}" onclick="openModule('${t.k}')" aria-label="${esc(t.name)}: ${t.status}${md?`, ${md.solved} of ${md.total} practice items solved`:""}"><span class="c">${ST[t.status][0]}</span><span>${esc(t.name.split(" ")[0])}</span></button>`}).join("");
+ const s1=`<div class="panel"><div class="dtop"><div><h1>${guest?"Welcome to LearnWise AI":(l?"Welcome back":"Welcome")+", "+esc(hello)+"!"}</h1><div class="muted">${l?"Ready to level up your Python skills?":"Your Python journey starts here. Take the diagnostic quiz and we will build your first study plan."}</div></div><div class="pills">${pills}</div></div>
+ <div class="hero3d"><div><div class="eyebrow">YOUR PERSONAL LEARNING UNIVERSE</div><h2>Learn smarter. Grow faster.</h2><p>Small steps, clear goals, and a learning path that moves with you.</p><div class="hero-tags"><span>✦ Personalised path</span><span>↗ Track progress</span><span>◎ Build skills</span></div></div><div class="orbit-scene" aria-hidden="true"><div class="orbit"></div><div class="orbit o2"></div><div class="orbit o3"></div><div class="orb-core"><span>AI</span></div><div class="float-token t1">${ico("learn")}</div><div class="float-token t2">${ico("progress")}</div><div class="float-token t3">${ico("star")}</div><div class="float-token t4">${ico("plan")}</div></div></div>
+ <div class="dgrid"><div class="tile"><h3>Your progress</h3><div class="rings">${ring(comp,"Course completion",`${done} of ${d.modules.length} modules`)}${ring(l?l.s:0,"Latest quiz score",l?`${l.correct} of ${l.total} correct`:"No quiz yet")}</div><div class="two"><div><b data-count="${strong}">${l?strong:"—"}</b><span class="muted">${tip("topics strong","Strong means 80% or more on your latest quiz. It is a rule, not proof of mastery.")}</span></div><div><b data-count="${prac}">${l?prac:"—"}</b><span class="muted">need practice</span></div></div>${l&&l.demo?'<p class="muted">Quiz data shown is demo data.</p>':""}</div>
+ <div class="col"><div class="tile"><h3>Weekly activity: ${week} learning ${week===1?"activity":"activities"} in the last 7 days</h3><div class="wbars">${bars}</div></div><div class="tile"><h3>Python learning path</h3><div class="path">${nodes}</div></div></div>
+ <div class="tile"><h3>Next lesson</h3><b>${esc(nx.title)}</b><p class="muted">${esc(nx.why)}</p>${nx.kind==="task"?`<div class="meta"><span>${nx.minutes} min</span><span>Difficulty: ${esc(nx.difficulty)}</span></div>`:""}${l?`<p class="muted"><b>Study goal:</b> reach ${TH.strong}% in every topic. This week: ${Math.min(d.weekly.count,d.weekly.goal)} of ${d.weekly.goal} activities.</p>`:`<p class="muted"><b>First goal:</b> ${esc(d.starter.goal)}</p>`}<button id="continueBtn" class="pri cta" onclick="${act}">${label}</button>${!l?`<button class="ghost cta" onclick="openModule('${d.starter.topic}')">Try a starter lesson: ${esc(TOP[d.starter.topic])}</button>`:""}</div></div></div>`;
+ const days=pend.slice(0,3);
+ const s2=`<div class="panel"><h2>${ico("plan")} Your personal learning journey</h2><div class="jgrid"><div class="tile"><h3>Study plan timeline</h3>${d.tasks.length?`<div class="tl">${d.tasks.map(t=>`<div class="ti ${t.completed?"done":""}"><b>Day ${t.day}: ${esc(t.title)}</b><div class="muted">${t.minutes} min, ${t.completed?"completed":"to do"}</div></div>`).join("")}</div>`:`<p class="muted">Your plan appears after your first assessment.</p><button class="pri" onclick="begin()">Take the diagnostic quiz</button>`}</div>
+ <div class="col"><div class="tile"><h3>Recommended next steps</h3>${days.length?days.map(t=>`<div class="row" style="margin:6px 0"><span>${esc(t.title)}<br><span class="muted">${t.minutes} min</span></span><button class="ghost sm" onclick="${t.topic?`openModule('${t.topic}')`:"begin()"}">Open</button></div>`).join(""):`<p class="muted">${d.tasks.length?"All plan tasks are done. Retake the quiz to measure your progress.":"Steps appear once you have quiz results."}</p>`}</div>
+ <div class="tile"><h3>So far</h3><p>Assessments taken: <b>${d.attempts}</b><br>Study tasks done: <b>${d.tasks_done} of ${d.tasks_total}</b><br>Modules completed: <b>${done} of ${d.modules.length}</b></p></div></div></div></div>`;
+ const s3=`<div class="panel"><h2>${ico("progress")} Skills and topic mastery</h2><p class="muted">Estimates from your latest assessment, a few questions per topic, not proof of mastery.</p><div class="skills">${d.topics.map(t=>{const s=ST[t.status],md=d.modules.find(x=>x.topic===t.k)||{solved:0,total:2};return`<div class="sk"><b>${esc(t.name)}</b><span class="chip ${s[1]}">${s[0]} ${t.status}</span><div class="bar"><i class="${s[1]||"none"}" style="width:${t.pct||0}%"></i></div><div class="muted">${t.n?`${t.correct} of ${t.n} correct`:"Not assessed yet"}<br>Module: ${md.solved} of ${md.total} practice items</div></div>`}).join("")}</div></div>`;
+ const it=m.items.find(x=>!x.solved)||m.items[0];
+ const s4=`<div class="panel"><h2>${ico("learn")} Practice Python: ${esc(m.title)}</h2><div class="cgrid"><div class="tile"><h3>Example</h3><pre class="code"><code>${hl(m.code)}</code></pre><p class="muted">The comments show what each line prints. ${esc(m.takeaway)}</p><button class="ghost sm" onclick="openModule('${m.topic}')">Open the full module</button></div>
+ <div class="tile"><h3>Challenge: ${it.kind==="bug"?"Find the bug":"Predict the output"} <span class="chip ${it.solved?"good":""}" id="st_${it.id}">${it.solved?"Solved":"Not solved yet"}</span></h3><p>${esc(it.prompt)}</p>${it.code?`<pre class="code"><code>${hl(it.code)}</code></pre>`:""}<div role="group" aria-label="Answer options">${it.options.map((o,k)=>`<button class="opt" onclick="answerItem('${it.id}',${k})">${String.fromCharCode(65+k)}. ${esc(o)}</button>`).join("")}</div><div id="fb_${it.id}" role="status"></div></div></div></div>`;
+ const rw=rewards?`<div class="row"><b>Level ${d.level}</b><span class="muted">${d.xp} XP</span></div><div class="bar"><i class="good" style="width:${d.into}%"></i></div><p class="muted">${d.per_level-d.into} XP to level ${d.level+1}. XP is earned once for each finished quiz, study task, first-try practice item and module.</p><p>Current streak: <b>${d.streak}</b> day${d.streak===1?"":"s"}. Active days: ${d.active_days}. Missing a day never costs you anything.</p><p>This week: ${Math.min(d.weekly.count,d.weekly.goal)} of ${d.weekly.goal} activities</p><div class="bar"><i style="width:${Math.min(100,d.weekly.count/d.weekly.goal*100)}%"></i></div>${d.best!=null?`<p>Personal best (real assessments): <b>${d.best}%</b></p>`:""}${d.badges.map(b=>`<div class="bdg ${b.earned?"on":""}"><b>${b.earned?"Earned":"Locked"}: ${esc(b.name)}</b><div class="muted">${esc(b.desc)}</div></div>`).join("")}`:`<p class="muted">Rewards are hidden.</p><button class="ghost" onclick="toggleRewards(true)">Show rewards</button>`;
+ const s5=`<div class="panel"><h2>${ico("star")} Achievements and motivation</h2><div class="agrid"><div class="tile"><h3>Rewards</h3>${rw}</div><div class="tile"><h3>Recent activity</h3>${d.timeline.length?d.timeline.slice(0,6).map(x=>`<div class="task"><div><b>${esc(x.text)}</b><div class="muted">${esc(x.t.slice(0,16).replace("T"," "))}</div></div></div>`).join(""):'<p class="muted">No activity yet. Your real activity will appear here.</p>'}</div></div></div>`;
+ const s6=`<div class="panel final"><h2>Your next breakthrough starts here</h2><p class="muted">${esc(nx.why)}</p><div class="row"><button class="pri" onclick="${act}">${label}</button><button class="ghost" onclick="go('learn')">Practice Python</button>${nx.kind==="quiz"?"":'<button class="ghost" onclick="begin()">Take Diagnostic Quiz</button>'}${!l?'<button class="ghost" onclick="demo()">Load demo history (sample data)</button>':""}</div><label class="opt-toggle"><input type="checkbox" ${rewards?"checked":""} onchange="toggleRewards(this.checked)"> Show rewards (XP, level, badges)</label></div>`;
+ const names=["Dashboard","Your journey","Skills","Practice","Achievements","Next step"];
+ $("app").innerHTML=`<div class="story" id="story"><div class="stage">${[s1,s2,s3,s4,s5,s6].map((h,i)=>`<section class="scene s${i+1}" aria-label="${names[i]}">${h}</section>`).join("")}</div><div class="dots" role="group" aria-label="Jump to a scene">${names.map(n=>`<button aria-label="Go to ${n}" title="${n}"></button>`).join("")}</div></div>`;
+ window.__story=window.Story?Story.mount($("story")):null}
+async function learn(){if(!NICK.test(user))return needName();
+ const m=(await api(mine("/api/modules"))).modules;
+ $("app").innerHTML=`<div class="card"><h2>${ico("learn")} Learn Python step by step</h2><p class="muted">Each module has a short explanation, an example, and two practice activities with instant feedback.</p></div><div class="grid">${m.map(x=>`<div class="card"><div class="row"><h3>${esc(x.title)}</h3><span class="chip ${x.status==="Completed"?"good":""}">${x.status}</span></div>${x.recommended?'<span class="tag">Recommended for you</span>':""}<p class="muted">${x.solved} of ${x.total} practice items solved</p><button class="${x.recommended?"pri":"ghost"}" onclick="openModule('${x.topic}')">${x.solved?"Continue":"Open"}</button></div>`).join("")}</div>`}
+async function resources(){
+ const d=await api("/api/resources"),all=d.resources;
+ const shown=resourceTopic==="all"?all:all.filter(r=>r.topic===resourceTopic);
+ const options=[`<option value="all" ${resourceTopic==="all"?"selected":""}>All topics</option>`,...Object.keys(TOP).map(k=>`<option value="${k}" ${resourceTopic===k?"selected":""}>${esc(TOP[k])}</option>`)].join("");
+ const kind={lesson:"Guided lesson",example:"Worked example"};
+ $("app").innerHTML=`<div class="card"><h2>${ico("resources")} Learning Resources</h2><p class="muted">Browse concise, offline-friendly Python notes and open official documentation when available. Choose a topic to focus your learning.</p><label for="resourceTopic"><b>Filter by topic</b></label><select id="resourceTopic" onchange="resourceTopic=this.value;resources()" style="display:block;max-width:420px;width:100%;margin-top:8px;padding:11px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink)">${options}</select><p class="muted">Showing ${shown.length} resource${shown.length===1?"":"s"}.</p></div>`+
+ (shown.length?`<div class="grid">${shown.map(r=>`<article class="card"><div class="row"><span class="chip">${esc(r.topic_name)}</span><span class="muted">${Number(r.minutes)} min</span></div><h3>${esc(r.title)}</h3><p class="muted">${esc(r.description)}</p><div class="meta"><span>${esc(kind[r.type]||r.type)}</span><span>${esc(r.difficulty)}</span></div><details><summary>Read quick notes</summary><pre>${esc(r.content)}</pre></details><div class="row" style="margin-top:12px;justify-content:flex-start">${r.url?`<a class="pri" style="text-decoration:none;display:inline-block" href="${esc(r.url)}" target="_blank" rel="noopener noreferrer">Open learning resource ↗</a>`:`<span class="muted">Offline resource</span>`}<button class="ghost" onclick="openModule('${r.topic}')">Practice this topic</button></div></article>`).join("")}</div>`:'<div class="card"><p>No resources are available for this topic yet.</p></div>');
+}
+async function moduleView(){if(!NICK.test(user))return needName();
+ const m=await api(mine("/api/modules/"+curTopic)),kind={output:"Predict the output",bug:"Find the bug"};
+ $("app").innerHTML=`<button class="ghost" onclick="go('learn')">Back to Learn</button><div class="card" style="margin-top:12px"><h2>${esc(m.title)}</h2><h3>The idea</h3><p>${esc(m.explain)}</p><div class="note"><b>Think of it like this:</b> ${esc(m.analogy)}</div><h3>Example</h3><pre class="code"><code>${hl(m.code)}</code></pre></div>`+m.items.map((it,n)=>`<div class="card"><div class="row"><h3>Practice ${n+1}: ${kind[it.kind]}</h3><span class="chip ${it.solved?"good":""}" id="st_${it.id}">${it.solved?"Solved":"Not solved yet"}</span></div><p>${esc(it.prompt)}</p>${it.code?`<pre class="code"><code>${hl(it.code)}</code></pre>`:""}<div role="group" aria-label="Answer options">${it.options.map((o,k)=>`<button class="opt" onclick="answerItem('${it.id}',${k})">${String.fromCharCode(65+k)}. ${esc(o)}</button>`).join("")}</div><div id="fb_${it.id}" role="status"></div></div>`).join("")+`<div class="card"><h3>Key takeaway</h3><p>${esc(m.takeaway)}</p><div class="row"><button class="ghost" onclick="go('learn')">Back to Learn</button><button class="pri" onclick="begin()">Take the diagnostic quiz</button></div></div>`}
+async function answerItem(id,k){try{const d=await api("/api/practice",{item_id:id,selected:k}),fb=$("fb_"+id);
+ fb.className="note";fb.innerHTML=d.correct?`<b>Correct.</b> ${esc(d.explanation)}`:`<b>Not quite, and that is part of learning.</b> The correct answer is ${esc(d.answer_text)}. ${esc(d.explanation)} Read the idea above again, then try another option if you like.`;
+ if(d.correct){const s=$("st_"+id);s.textContent="Solved";s.className="chip good"}
+ if(d.xp)toast(`+${d.xp} XP`);d.badges.forEach(b=>toast("Badge earned: "+b));if(d.module_done)toast("Module complete!");if(window.__story)window.__story.measure()}catch(e){alert(e.message)}}
+async function assess(){if(!NICK.test(user))return needName();
+ const at=(await api(mine("/api/progress"))).attempts,a=at[at.length-1],cnt=Object.keys(ans).length,resume=token&&Q.length&&cnt;
+ $("app").innerHTML=`<div class="card"><h2>${ico("assess")} Diagnostic assessment</h2><p>${PT*Object.keys(TOP).length} questions, ${PT} from each of ${Object.keys(TOP).length} Python topics, about 10 minutes. Answers are checked on the server and revealed only after you submit. There is no pass or fail: results only decide what to study next.</p><div class="row" style="justify-content:flex-start">${resume?`<button class="pri" onclick="view='quiz';render()">Resume (${cnt} answered)</button>`:""}<button class="${resume?"ghost":"pri"}" onclick="begin()">${resume?"Start over":"Start new assessment"}</button></div></div>${a?`<div class="card"><h3>Latest result</h3><p><span class="big">${a.s}%</span> <span class="muted">${a.correct} of ${a.total} correct, ${esc(a.at.slice(0,10))}${a.demo?" (demo data)":""}</span></p><button class="ghost" onclick="go('results')">View results and explanations</button></div>`:""}`}
+function summary(a){const ok=[],low=[];Object.keys(TOP).forEach(k=>{const t=a.t[k];if(!t)return;const p=pct(t[0],t[1]);(p>=TH.strong?ok:low).push({k,p})});low.sort((x,y)=>x.p-y.p);
+ return `<div class="card"><h3>What this suggests</h3><p><b>Strengths so far:</b> ${ok.length?ok.map(x=>esc(TOP[x.k])+" ("+x.p+"%)").join(", "):"None yet. That is a normal starting point."}</p><p><b>Worth practising:</b> ${low.length?low.slice(0,3).map(x=>esc(TOP[x.k])+" ("+x.p+"%)").join(", "):"Nothing urgent."}</p>${low.length?`<div class="row" style="justify-content:flex-start">${low.slice(0,3).map(x=>`<button class="ghost sm" onclick="openModule('${x.k}')">Learn: ${esc(TOP[x.k].split(" ")[0])}</button>`).join("")}</div>`:""}<p class="muted">These are estimates from a few questions per topic, not final judgments.</p></div>`}
+
+if(!NICK.test(user))openOnboarding();
+render();
+</script></body></html>
