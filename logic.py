@@ -17,6 +17,7 @@ TOPICS = {
     "dict": "Dictionaries and sets",
     "debug": "Debugging and problem solving",
 }
+
 TIPS = {
     "var": "Review how values and types work, with one example of each type.",
     "ops": "Review operator order and the difference between /, // and %.",
