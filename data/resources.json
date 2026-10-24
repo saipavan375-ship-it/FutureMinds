@@ -1,0 +1,178 @@
+[
+ {
+  "id": "RES_VAR_LESSON",
+  "topic": "var",
+  "type": "lesson",
+  "title": "Variables and data types: guided lesson",
+  "difficulty": "easy",
+  "minutes": 10,
+  "description": "Short summary with a link to the official Python tutorial (Python Software Foundation).",
+  "url": "https://docs.python.org/3/tutorial/introduction.html",
+  "content": "A variable names a value. Common types: int (5), float (3.0), str ('hi'), bool (True). Use type(x) to check. Names cannot start with a digit or be keywords."
+ },
+ {
+  "id": "RES_VAR_EXAMPLE",
+  "topic": "var",
+  "type": "example",
+  "title": "Variables and data types: worked example",
+  "difficulty": "easy",
+  "minutes": 5,
+  "description": "Short code example written by the team. Works offline.",
+  "url": "",
+  "content": "x = 5\nx += 2\nprint(x, type(x))   # 7 <class 'int'>\nprint(type(3.0))    # <class 'float'>"
+ },
+ {
+  "id": "RES_OPS_LESSON",
+  "topic": "ops",
+  "type": "lesson",
+  "title": "Operators and expressions: guided lesson",
+  "difficulty": "easy",
+  "minutes": 10,
+  "description": "Short summary with a link to the official Python tutorial (Python Software Foundation).",
+  "url": "https://docs.python.org/3/tutorial/introduction.html",
+  "content": "Arithmetic: + - * / // % **. Multiplication and ** happen before + and -. // floors the result and % gives the remainder."
+ },
+ {
+  "id": "RES_OPS_EXAMPLE",
+  "topic": "ops",
+  "type": "example",
+  "title": "Operators and expressions: worked example",
+  "difficulty": "easy",
+  "minutes": 5,
+  "description": "Short code example written by the team. Works offline.",
+  "url": "",
+  "content": "print(7 // 2)       # 3\nprint(7 % 3)        # 1\nprint(2 ** 3)       # 8\nprint(2 + 3 * 4)    # 14"
+ },
+ {
+  "id": "RES_COND_LESSON",
+  "topic": "cond",
+  "type": "lesson",
+  "title": "Conditionals: guided lesson",
+  "difficulty": "easy",
+  "minutes": 10,
+  "description": "Short summary with a link to the official Python tutorial (Python Software Foundation).",
+  "url": "https://docs.python.org/3/tutorial/controlflow.html",
+  "content": "if runs a block when its condition is True; elif is tried only if earlier conditions were False; else is the fallback. 0, '' and empty collections count as False."
+ },
+ {
+  "id": "RES_COND_EXAMPLE",
+  "topic": "cond",
+  "type": "example",
+  "title": "Conditionals: worked example",
+  "difficulty": "easy",
+  "minutes": 5,
+  "description": "Short code example written by the team. Works offline.",
+  "url": "",
+  "content": "x = 15\nif x < 10:\n    print('small')\nelif x < 20:\n    print('medium')   # runs\nelse:\n    print('large')"
+ },
+ {
+  "id": "RES_LOOP_LESSON",
+  "topic": "loop",
+  "type": "lesson",
+  "title": "Loops and range(): guided lesson",
+  "difficulty": "easy",
+  "minutes": 10,
+  "description": "Short summary with a link to the official Python tutorial (Python Software Foundation).",
+  "url": "https://docs.python.org/3/tutorial/controlflow.html",
+  "content": "for loops visit each item of a sequence. range(n) gives 0 to n-1 and range(a, b) gives a to b-1. break exits a loop. A while loop needs its condition to become False."
+ },
+ {
+  "id": "RES_LOOP_EXAMPLE",
+  "topic": "loop",
+  "type": "example",
+  "title": "Loops and range(): worked example",
+  "difficulty": "easy",
+  "minutes": 5,
+  "description": "Short code example written by the team. Works offline.",
+  "url": "",
+  "content": "for i in range(2, 5):\n    print(i)        # 2 3 4\ntotal = 0\nfor i in range(4):\n    total += i\nprint(total)        # 6"
+ },
+ {
+  "id": "RES_LIST_LESSON",
+  "topic": "list",
+  "type": "lesson",
+  "title": "Strings and lists: guided lesson",
+  "difficulty": "easy",
+  "minutes": 10,
+  "description": "Short summary with a link to the official Python tutorial (Python Software Foundation).",
+  "url": "https://docs.python.org/3/tutorial/introduction.html",
+  "content": "Strings and lists are indexed from 0 and slices s[a:b] stop before b. Lists have append(); strings have split() and join()."
+ },
+ {
+  "id": "RES_LIST_EXAMPLE",
+  "topic": "list",
+  "type": "example",
+  "title": "Strings and lists: worked example",
+  "difficulty": "easy",
+  "minutes": 5,
+  "description": "Short code example written by the team. Works offline.",
+  "url": "",
+  "content": "s = 'python'\nprint(s[1])         # y\nnums = [1, 2, 3, 4]\nprint(nums[1:3])    # [2, 3]\nprint('a-b-c'.split('-'))   # ['a', 'b', 'c']"
+ },
+ {
+  "id": "RES_FUNC_LESSON",
+  "topic": "func",
+  "type": "lesson",
+  "title": "Functions and return values: guided lesson",
+  "difficulty": "easy",
+  "minutes": 10,
+  "description": "Short summary with a link to the official Python tutorial (Python Software Foundation).",
+  "url": "https://docs.python.org/3/tutorial/controlflow.html",
+  "content": "def creates a function. Parameters can have defaults. return sends a value back and ends the function; without return the result is None."
+ },
+ {
+  "id": "RES_FUNC_EXAMPLE",
+  "topic": "func",
+  "type": "example",
+  "title": "Functions and return values: worked example",
+  "difficulty": "easy",
+  "minutes": 5,
+  "description": "Short code example written by the team. Works offline.",
+  "url": "",
+  "content": "def add(a, b=2):\n    return a + b\nprint(add(3))       # 5\nprint(add(3, 4))    # 7"
+ },
+ {
+  "id": "RES_DICT_LESSON",
+  "topic": "dict",
+  "type": "lesson",
+  "title": "Dictionaries and sets: guided lesson",
+  "difficulty": "easy",
+  "minutes": 10,
+  "description": "Short summary with a link to the official Python tutorial (Python Software Foundation).",
+  "url": "https://docs.python.org/3/tutorial/datastructures.html",
+  "content": "A dict maps unique keys to values: d['a'] reads a value and d.get('b') returns None if the key is missing. A set keeps only unique items."
+ },
+ {
+  "id": "RES_DICT_EXAMPLE",
+  "topic": "dict",
+  "type": "example",
+  "title": "Dictionaries and sets: worked example",
+  "difficulty": "easy",
+  "minutes": 5,
+  "description": "Short code example written by the team. Works offline.",
+  "url": "",
+  "content": "d = {'a': 1}\nd['b'] = 2\nprint(d.get('c'))           # None\nprint(len({1, 2, 2, 3}))    # 3"
+ },
+ {
+  "id": "RES_DEBUG_LESSON",
+  "topic": "debug",
+  "type": "lesson",
+  "title": "Debugging and problem solving: guided lesson",
+  "difficulty": "easy",
+  "minutes": 10,
+  "description": "Short summary with a link to the official Python tutorial (Python Software Foundation).",
+  "url": "https://docs.python.org/3/tutorial/errors.html",
+  "content": "Read the last line of the error first. NameError: name not defined. TypeError: wrong type for an operation. ValueError: right type, bad value. Use print() to trace values step by step."
+ },
+ {
+  "id": "RES_DEBUG_EXAMPLE",
+  "topic": "debug",
+  "type": "example",
+  "title": "Debugging and problem solving: worked example",
+  "difficulty": "easy",
+  "minutes": 5,
+  "description": "Short code example written by the team. Works offline.",
+  "url": "",
+  "content": "# int('abc') raises ValueError\n# '5' + 2 raises TypeError\nx = 10\nprint('x is', x)   # print values to trace a bug"
+ }
+]
