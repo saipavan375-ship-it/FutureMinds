@@ -183,6 +183,10 @@ class Extras(Base):
         self.assertGreaterEqual(len(A.QUESTIONS), 40)
         self.assertTrue(all(q.get("resource_id") in {r["id"] for r in A.RESOURCES} for q in A.QUESTIONS))
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> bafc6c70e4b365c7312d29c5291bc8befb9fd373
     def test_public_resource_catalogue_is_complete_and_safe(self):
         response = self.c.get("/api/resources")
         self.assertEqual(response.status_code, 200)
@@ -192,6 +196,11 @@ class Extras(Base):
         self.assertTrue(all(r["topic"] in logic.TOPICS for r in resources))
         self.assertTrue(all(not r["url"] or r["url"].startswith("https://") for r in resources))
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 53e2e8729e4d0cf9dddc96aa4343e28719bfa8a7
+>>>>>>> bafc6c70e4b365c7312d29c5291bc8befb9fd373
     def test_demo_only_reset_keeps_real_attempts(self):
         self.c.post("/api/demo", json={"learner": "mixed1"})
         self.take("mixed1")
