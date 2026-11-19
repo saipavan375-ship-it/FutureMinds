@@ -69,6 +69,22 @@ CREATE TABLE IF NOT EXISTS feedback(
   rating INTEGER NOT NULL CHECK(rating BETWEEN 1 AND 5), category TEXT NOT NULL,
   message TEXT NOT NULL DEFAULT '');
 CREATE INDEX IF NOT EXISTS idx_xp_learner ON xp_events(learner, created_at);
+CREATE TABLE IF NOT EXISTS goals(
+  id INTEGER PRIMARY KEY AUTOINCREMENT, learner TEXT NOT NULL, title TEXT NOT NULL,
+  category TEXT NOT NULL CHECK(category IN ('academic','personal')), description TEXT NOT NULL DEFAULT '',
+  start_date TEXT NOT NULL, deadline TEXT NOT NULL, status TEXT NOT NULL DEFAULT 'ongoing'
+    CHECK(status IN ('ongoing','completed','abandoned')), created_at TEXT NOT NULL, updated_at TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS goal_steps(
+  id INTEGER PRIMARY KEY AUTOINCREMENT, goal_id INTEGER NOT NULL REFERENCES goals(id) ON DELETE CASCADE,
+  title TEXT NOT NULL, done INTEGER NOT NULL DEFAULT 0, created_at TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS progress_logs(
+  id INTEGER PRIMARY KEY AUTOINCREMENT, goal_id INTEGER NOT NULL REFERENCES goals(id) ON DELETE CASCADE,
+  progress INTEGER NOT NULL CHECK(progress BETWEEN 0 AND 100), note TEXT NOT NULL DEFAULT '', satisfaction INTEGER NOT NULL DEFAULT 3 CHECK(satisfaction BETWEEN 1 AND 5), created_at TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS goal_challenges(
+  id INTEGER PRIMARY KEY AUTOINCREMENT, goal_id INTEGER NOT NULL REFERENCES goals(id) ON DELETE CASCADE,
+  challenge TEXT NOT NULL, response TEXT NOT NULL DEFAULT '', created_at TEXT NOT NULL);
+CREATE INDEX IF NOT EXISTS idx_goals_learner ON goals(learner, status, deadline);
+CREATE INDEX IF NOT EXISTS idx_goal_logs ON progress_logs(goal_id, created_at);
 """
 DEMO_DATES = ("2026-10-08T09:00:00", "2026-10-12T09:00:00")
 DEMO_TOPICS = (
@@ -99,6 +115,9 @@ def init_db():
             c.execute("ALTER TABLE attempts ADD COLUMN is_demo INTEGER NOT NULL DEFAULT 0")
             c.execute("UPDATE attempts SET is_demo=1 WHERE taken_at IN (?, ?) "
                       "AND NOT EXISTS (SELECT 1 FROM responses WHERE attempt_id = attempts.id)", DEMO_DATES)
+        log_cols = {r["name"] for r in c.execute("PRAGMA table_info(progress_logs)")}
+        if "satisfaction" not in log_cols:
+            c.execute("ALTER TABLE progress_logs ADD COLUMN satisfaction INTEGER NOT NULL DEFAULT 3")
 
 
 def learner_id(value):
@@ -523,6 +542,191 @@ def dashboard():
     return jsonify(dashboard_data(name)) if ok else bad(NICK_MSG)
 
 
+@app.get("/api/goals")
+def list_goals():
+    ok, name = optional_learner()
+    if not ok:
+        return bad(NICK_MSG)
+    with tx() as c:
+        goals = c.execute("SELECT * FROM goals WHERE learner=? ORDER BY CASE status WHEN 'ongoing' THEN 0 ELSE 1 END, deadline, id", (name,)).fetchall()
+        result = []
+        for g in goals:
+            steps = c.execute("SELECT id, title, done FROM goal_steps WHERE goal_id=? ORDER BY id", (g["id"],)).fetchall()
+            logs = c.execute("SELECT progress, note, satisfaction, created_at FROM progress_logs WHERE goal_id=? ORDER BY id", (g["id"],)).fetchall()
+            challenges = c.execute("SELECT challenge, response, created_at FROM goal_challenges WHERE goal_id=? ORDER BY id DESC", (g["id"],)).fetchall()
+            progress = logs[-1]["progress"] if logs else (100 if g["status"] == "completed" else 0)
+            result.append({"id":g["id"], "title":g["title"], "category":g["category"], "description":g["description"],
+                "start_date":g["start_date"], "deadline":g["deadline"], "status":g["status"], "overdue":g["status"]=="ongoing" and g["deadline"] < date.today().isoformat(), "progress":progress,
+                "steps":[dict(x) for x in steps], "logs":[dict(x) for x in logs], "challenges":[dict(x) for x in challenges]})
+    return jsonify(goals=result)
+
+
+@app.post("/api/goals")
+def create_goal():
+    data = body(); name = learner_id(data.get("learner"))
+    if not name: return bad(NICK_MSG)
+    title = data.get("title", ""); category = data.get("category", "academic")
+    description = data.get("description", ""); deadline = data.get("deadline", "")
+    steps = data.get("steps", [])
+    if not isinstance(title, str) or not title.strip() or len(title.strip()) > 120: return bad("Goal title is required (up to 120 characters).")
+    if category not in ("academic", "personal"): return bad("Choose academic or personal goal.")
+    if not isinstance(description, str) or len(description) > 1000: return bad("Description must be 1,000 characters or fewer.")
+    try:
+        due = date.fromisoformat(deadline)
+    except (TypeError, ValueError): return bad("Choose a valid deadline.")
+    if due < date.today(): return bad("Deadline cannot be before today.")
+    if not isinstance(steps, list) or len(steps) > 20 or any(not isinstance(x, str) or not x.strip() or len(x.strip()) > 160 for x in steps):
+        return bad("Add up to 20 valid action steps, each up to 160 characters.")
+    today = date.today().isoformat(); now = now_iso()
+    with tx() as c:
+        cur = c.execute("INSERT INTO goals(learner,title,category,description,start_date,deadline,status,created_at,updated_at) VALUES(?,?,?,?,?,?,'ongoing',?,?)",
+            (name,title.strip(),category,description.strip(),today,due.isoformat(),now,now))
+        gid = cur.lastrowid
+        for step in steps:
+            c.execute("INSERT INTO goal_steps(goal_id,title,created_at) VALUES(?,?,?)", (gid,step.strip(),now))
+        c.execute("INSERT INTO progress_logs(goal_id,progress,note,created_at) VALUES(?,0,'Goal created',?)", (gid,now))
+    return jsonify(ok=True, goal_id=gid, message="Goal created successfully."), 201
+
+
+@app.put("/api/goals/<int:goal_id>")
+def edit_goal(goal_id):
+    data=body(); name=learner_id(data.get("learner"))
+    if not name: return bad(NICK_MSG)
+    title=data.get("title"); description=data.get("description",""); category=data.get("category"); deadline=data.get("deadline")
+    if not isinstance(title,str) or not title.strip() or len(title.strip())>120: return bad("Goal title is required (up to 120 characters).")
+    if not isinstance(description,str) or len(description)>1000: return bad("Description must be 1,000 characters or fewer.")
+    if category not in ("academic","personal"): return bad("Choose academic or personal goal.")
+    try: due=date.fromisoformat(deadline)
+    except (TypeError,ValueError): return bad("Choose a valid deadline.")
+    with tx() as c:
+        g=c.execute("SELECT start_date FROM goals WHERE id=? AND learner=?",(goal_id,name)).fetchone()
+        if not g: return bad("Goal not found for this learner.",404)
+        if due < date.today(): return bad("Deadline cannot be before today.")
+        c.execute("UPDATE goals SET title=?,description=?,category=?,deadline=?,updated_at=? WHERE id=? AND learner=?",
+                  (title.strip(),description.strip(),category,due.isoformat(),now_iso(),goal_id,name))
+    return jsonify(ok=True,message="Goal updated.")
+
+
+@app.delete("/api/goals/<int:goal_id>")
+def delete_goal(goal_id):
+    data=body(); name=learner_id(data.get("learner"))
+    if not name: return bad(NICK_MSG)
+    with tx() as c:
+        row=c.execute("SELECT id FROM goals WHERE id=? AND learner=?",(goal_id,name)).fetchone()
+        if not row: return bad("Goal not found for this learner.",404)
+        c.execute("DELETE FROM goals WHERE id=? AND learner=?",(goal_id,name))
+    return jsonify(ok=True,message="Goal deleted.")
+
+
+@app.post("/api/goals/<int:goal_id>/steps")
+def add_goal_step(goal_id):
+    data=body(); name=learner_id(data.get("learner")); title=data.get("title","")
+    if not name: return bad(NICK_MSG)
+    if not isinstance(title,str) or not title.strip() or len(title.strip())>160: return bad("Action step must be 1–160 characters.")
+    with tx() as c:
+        if not c.execute("SELECT id FROM goals WHERE id=? AND learner=?",(goal_id,name)).fetchone(): return bad("Goal not found for this learner.",404)
+        count=c.execute("SELECT COUNT(*) FROM goal_steps WHERE goal_id=?",(goal_id,)).fetchone()[0]
+        if count>=20: return bad("A goal can have at most 20 action steps.")
+        cur=c.execute("INSERT INTO goal_steps(goal_id,title,created_at) VALUES(?,?,?)",(goal_id,title.strip(),now_iso()))
+    return jsonify(ok=True,step_id=cur.lastrowid),201
+
+
+@app.delete("/api/goals/<int:goal_id>/steps/<int:step_id>")
+def delete_goal_step(goal_id,step_id):
+    data=body(); name=learner_id(data.get("learner"))
+    if not name: return bad(NICK_MSG)
+    with tx() as c:
+        row=c.execute("SELECT s.id FROM goal_steps s JOIN goals g ON g.id=s.goal_id WHERE s.id=? AND g.id=? AND g.learner=?",(step_id,goal_id,name)).fetchone()
+        if not row: return bad("Action step not found.",404)
+        c.execute("DELETE FROM goal_steps WHERE id=?",(step_id,))
+    return jsonify(ok=True)
+
+
+@app.post("/api/goals/<int:goal_id>/review")
+def review_goal(goal_id):
+    data=body(); name=learner_id(data.get("learner"))
+    if not name: return bad(NICK_MSG)
+    try:
+        progress=data.get("progress",0); progress=int(progress)
+        satisfaction=data.get("satisfaction",3); satisfaction=int(satisfaction)
+    except (TypeError,ValueError): return bad("Progress and satisfaction must be numeric.")
+    if not 0<=progress<=100: return bad("Progress must be between 0 and 100.")
+    if not 1<=satisfaction<=5: return bad("Satisfaction must be between 1 and 5.")
+    note,challenge,response=(data.get(k,"") for k in ("note","challenge","response"))
+    if any(not isinstance(v,str) for v in (note,challenge,response)): return bad("Review fields must be text.")
+    if any(len(v)>1000 for v in (note,challenge,response)): return bad("Each review field must be 1,000 characters or fewer.")
+    status=data.get("status","ongoing")
+    if status not in ("ongoing","completed","abandoned"): return bad("Choose a valid goal status.")
+    reopen=data.get("reopen") is True
+    now=now_iso()
+    with tx() as c:
+        g=c.execute("SELECT id,status FROM goals WHERE id=? AND learner=?",(goal_id,name)).fetchone()
+        if not g: return bad("Goal not found for this learner.",404)
+        if g["status"] in ("completed","abandoned") and not reopen:
+            return bad("This goal is closed. Use the explicit Reopen action before reviewing it.",409)
+        # A completed review is always 100%; an ordinary review cannot lower it because closed goals are rejected.
+        actual_progress=100 if status=="completed" else progress
+        c.execute("INSERT INTO progress_logs(goal_id,progress,note,satisfaction,created_at) VALUES(?,?,?,?,?)",(goal_id,actual_progress,note.strip(),satisfaction,now))
+        if challenge.strip(): c.execute("INSERT INTO goal_challenges(goal_id,challenge,response,created_at) VALUES(?,?,?,?)",(goal_id,challenge.strip(),response.strip(),now))
+        c.execute("UPDATE goals SET status=?,updated_at=? WHERE id=?",(status,now,goal_id))
+    return jsonify(ok=True,message="Goal review saved.")
+
+
+@app.post("/api/goals/<int:goal_id>/reopen")
+def reopen_goal(goal_id):
+    data=body(); name=learner_id(data.get("learner"))
+    if not name: return bad(NICK_MSG)
+    with tx() as c:
+        g=c.execute("SELECT id,status FROM goals WHERE id=? AND learner=?",(goal_id,name)).fetchone()
+        if not g: return bad("Goal not found for this learner.",404)
+        if g["status"]=="ongoing": return bad("This goal is already ongoing.",409)
+        c.execute("UPDATE goals SET status='ongoing',updated_at=? WHERE id=?",(now_iso(),goal_id))
+    return jsonify(ok=True,message="Goal reopened. You can now record a new review.")
+
+
+@app.post("/api/goals/<int:goal_id>/step")
+def toggle_goal_step(goal_id):
+    data=body(); name=learner_id(data.get("learner")); step_id=data.get("step_id"); done=data.get("done")
+    if not name: return bad(NICK_MSG)
+    if isinstance(step_id,bool) or not isinstance(step_id,int) or not isinstance(done,bool): return bad("Invalid action step update.")
+    with tx() as c:
+        row=c.execute("SELECT s.id FROM goal_steps s JOIN goals g ON g.id=s.goal_id WHERE s.id=? AND g.id=? AND g.learner=?",(step_id,goal_id,name)).fetchone()
+        if not row: return bad("Action step not found.",404)
+        c.execute("UPDATE goal_steps SET done=? WHERE id=?",(int(done),step_id))
+        c.execute("UPDATE goals SET updated_at=? WHERE id=?",(now_iso(),goal_id))
+    return jsonify(ok=True)
+
+
+@app.get("/api/reports")
+def goal_reports():
+    ok,name=optional_learner()
+    if not ok or not name: return bad(NICK_MSG)
+    today=date.today().isoformat()
+    with tx() as c:
+        goals=c.execute("SELECT * FROM goals WHERE learner=? ORDER BY created_at",(name,)).fetchall()
+        rows=[]; ratings=[]
+        for g in goals:
+            logs=c.execute("SELECT progress,note,satisfaction,created_at FROM progress_logs WHERE goal_id=? ORDER BY id",(g["id"],)).fetchall()
+            challenges=c.execute("SELECT challenge,response,created_at FROM goal_challenges WHERE goal_id=? ORDER BY id",(g["id"],)).fetchall()
+            steps=c.execute("SELECT title,done FROM goal_steps WHERE goal_id=? ORDER BY id",(g["id"],)).fetchall()
+            progress=logs[-1]["progress"] if logs else (100 if g["status"]=="completed" else 0)
+            ratings.extend([x["satisfaction"] for x in logs if x["satisfaction"] is not None and x["note"] != "Goal created"])
+            overdue=g["status"]=="ongoing" and g["deadline"]<today
+            rows.append({"id":g["id"],"title":g["title"],"description":g["description"],"category":g["category"],"status":g["status"],"overdue":overdue,"progress":progress,
+                "deadline":g["deadline"],"steps_done":sum(x["done"] for x in steps),"steps_total":len(steps),
+                "last_note":logs[-1]["note"] if logs else "","logs":[dict(x) for x in logs],"challenges":[dict(x) for x in challenges],"updates":len(logs)})
+    total=len(rows); academic=[g for g in rows if g["category"]=="academic"]; personal=[g for g in rows if g["category"]=="personal"]
+    avg=lambda gs: round(sum(g["progress"] for g in gs)/len(gs),1) if gs else 0
+    completed=sum(g["status"]=="completed" for g in rows)
+    return jsonify(report={"learner":name,"generated_at":now_iso(),"total_goals":total,
+        "ongoing":sum(g["status"]=="ongoing" for g in rows),"completed":completed,
+        "abandoned":sum(g["status"]=="abandoned" for g in rows),"average_progress":round(avg(rows)),
+        "completion_rate":round(100*completed/total,1) if total else 0,"overdue_count":sum(g["overdue"] for g in rows),
+        "average_satisfaction":round(sum(ratings)/len(ratings),1) if ratings else 0,
+        "breakdown":{"academic":{"count":len(academic),"average_progress":avg(academic)},"personal":{"count":len(personal),"average_progress":avg(personal)}},
+        "goals":rows,"reflection_prompt":"What worked well? What challenged you? What is one practical step you will take next?"})
+
+
 @app.post("/api/feedback")
 def submit_feedback():
     """Store product feedback locally in SQLite; learner nickname is optional."""
@@ -534,7 +738,7 @@ def submit_feedback():
     if rating not in range(1, 6):
         return bad("Choose a rating from 1 to 5.")
     category = data.get("category", "")
-    if category not in {"general", "content", "quiz", "dashboard", "bug"}:
+    if category not in {"general", "goals", "report", "dashboard", "bug"}:
         return bad("Choose a valid feedback category.")
     message = data.get("message", "")
     if not isinstance(message, str):

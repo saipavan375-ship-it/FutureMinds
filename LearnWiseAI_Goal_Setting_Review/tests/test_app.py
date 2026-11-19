@@ -473,3 +473,100 @@ class Round6(Base):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class GoalManagement(Base):
+    def create_goal(self, who="student1", **overrides):
+        from datetime import date, timedelta
+        payload = {"learner": who, "title": "Finish Java Unit III", "category": "academic",
+                   "description": "Revise and practise", "deadline": (date.today()+timedelta(days=7)).isoformat(),
+                   "steps": ["Read notes", "Solve questions"]}
+        payload.update(overrides)
+        return self.c.post("/api/goals", json=payload)
+
+    def test_create_goal_valid_and_invalid(self):
+        r = self.create_goal()
+        self.assertEqual(r.status_code, 201)
+        goals = self.c.get("/api/goals?learner=student1").get_json()["goals"]
+        self.assertEqual((goals[0]["title"], len(goals[0]["steps"])), ("Finish Java Unit III", 2))
+        self.assertEqual(self.create_goal("student2", title=" ").status_code, 400)
+        self.assertEqual(self.create_goal("student2", category="other").status_code, 400)
+
+    def test_past_deadline_rejected(self):
+        from datetime import date, timedelta
+        past = (date.today()-timedelta(days=1)).isoformat()
+        self.assertEqual(self.create_goal("student1", deadline=past).status_code, 400)
+
+    def test_step_toggle_add_and_remove(self):
+        gid = self.create_goal().get_json()["goal_id"]
+        goals = self.c.get("/api/goals?learner=student1").get_json()["goals"]
+        step = goals[0]["steps"][0]["id"]
+        r = self.c.post(f"/api/goals/{gid}/step", json={"learner":"student1","step_id":step,"done":True})
+        self.assertEqual(r.status_code, 200)
+        self.assertTrue(self.c.get("/api/goals?learner=student1").get_json()["goals"][0]["steps"][0]["done"])
+        added = self.c.post(f"/api/goals/{gid}/steps", json={"learner":"student1","title":"Review mistakes"})
+        self.assertEqual(added.status_code, 201)
+        self.assertEqual(self.c.delete(f"/api/goals/{gid}/steps/{added.get_json()['step_id']}", json={"learner":"student1"}).status_code, 200)
+
+    def test_reviews_challenges_satisfaction_and_report(self):
+        gid = self.create_goal().get_json()["goal_id"]
+        r = self.c.post(f"/api/goals/{gid}/review", json={"learner":"student1","progress":45,"note":"Finished two chapters",
+            "challenge":"Could not focus","response":"Study in 25-minute blocks","satisfaction":4,"status":"ongoing"})
+        self.assertEqual(r.status_code, 200)
+        report = self.c.get("/api/reports?learner=student1").get_json()["report"]
+        self.assertEqual(report["average_progress"], 45)
+        self.assertEqual(report["average_satisfaction"], 3.5)  # creation log defaults to 3; review is 4
+        self.assertEqual(report["goals"][0]["challenges"][0]["challenge"], "Could not focus")
+        self.assertEqual(report["goals"][0]["challenges"][0]["response"], "Study in 25-minute blocks")
+        self.assertIn("logs", report["goals"][0])
+
+    def test_completed_goal_protection_and_reopen(self):
+        gid = self.create_goal().get_json()["goal_id"]
+        r = self.c.post(f"/api/goals/{gid}/review", json={"learner":"student1","progress":70,"note":"Done","status":"completed","satisfaction":5})
+        self.assertEqual(r.status_code, 200)
+        self.assertEqual(self.c.post(f"/api/goals/{gid}/review", json={"learner":"student1","progress":20,"note":"again","status":"ongoing"}).status_code, 409)
+        logs = self.c.get("/api/goals?learner=student1").get_json()["goals"][0]["logs"]
+        self.assertEqual(logs[-1]["progress"], 100)
+        self.assertEqual(self.c.post(f"/api/goals/{gid}/reopen", json={"learner":"student1"}).status_code, 200)
+        self.assertEqual(self.c.post(f"/api/goals/{gid}/review", json={"learner":"student1","progress":25,"note":"Restart","status":"ongoing","reopen":True}).status_code, 200)
+
+    def test_edit_delete_and_cascade(self):
+        gid = self.create_goal().get_json()["goal_id"]
+        goals = self.c.get("/api/goals?learner=student1").get_json()["goals"]
+        step = goals[0]["steps"][0]["id"]
+        self.c.post(f"/api/goals/{gid}/review", json={"learner":"student1","progress":20,"note":"Started","challenge":"Time","response":"Plan","status":"ongoing"})
+        from datetime import date, timedelta
+        r = self.c.put(f"/api/goals/{gid}", json={"learner":"student1","title":"Updated goal","description":"New description","category":"personal","deadline":(date.today()+timedelta(days=9)).isoformat()})
+        self.assertEqual(r.status_code, 200)
+        self.assertEqual(self.c.get("/api/goals?learner=student1").get_json()["goals"][0]["category"], "personal")
+        self.assertEqual(self.c.delete(f"/api/goals/{gid}", json={"learner":"student1"}).status_code, 200)
+        self.assertEqual(self.c.get("/api/goals?learner=student1").get_json()["goals"], [])
+        with A.tx() as c:
+            self.assertEqual(c.execute("SELECT COUNT(*) FROM goal_steps WHERE id=?",(step,)).fetchone()[0],0)
+            self.assertEqual(c.execute("SELECT COUNT(*) FROM progress_logs WHERE goal_id=?",(gid,)).fetchone()[0],0)
+            self.assertEqual(c.execute("SELECT COUNT(*) FROM goal_challenges WHERE goal_id=?",(gid,)).fetchone()[0],0)
+
+    def test_learner_isolation(self):
+        gid = self.create_goal("owner1").get_json()["goal_id"]
+        self.assertEqual(self.c.get("/api/goals?learner=other11").get_json()["goals"], [])
+        self.assertEqual(self.c.post(f"/api/goals/{gid}/review", json={"learner":"other11","progress":99,"note":"hack","status":"ongoing"}).status_code,404)
+        self.assertEqual(self.c.put(f"/api/goals/{gid}", json={"learner":"other11","title":"Hijack","description":"","category":"personal","deadline":"2099-01-01"}).status_code,404)
+        self.assertEqual(self.c.delete(f"/api/goals/{gid}", json={"learner":"other11"}).status_code,404)
+        self.assertEqual(len(self.c.get("/api/goals?learner=owner1").get_json()["goals"]),1)
+
+    def test_report_calculations_breakdown_completion_overdue(self):
+        from datetime import date, timedelta
+        a = self.create_goal("report1", category="academic", deadline=(date.today()-timedelta(days=1)).isoformat())
+        # Past deadlines are rejected at creation, so create a valid goal then set its deadline directly for overdue calculation.
+        self.assertEqual(a.status_code,400)
+        gid = self.create_goal("report1", category="academic").get_json()["goal_id"]
+        pid = self.create_goal("report1", title="Walk daily", category="personal").get_json()["goal_id"]
+        self.c.post(f"/api/goals/{gid}/review", json={"learner":"report1","progress":100,"note":"Completed","status":"completed","satisfaction":5})
+        with A.tx() as c:
+            c.execute("UPDATE goals SET deadline=? WHERE id=?",((date.today()-timedelta(days=1)).isoformat(),pid))
+            c.execute("INSERT INTO progress_logs(goal_id,progress,note,satisfaction,created_at) VALUES(?,20,'Slow start',1,?)",(pid,A.now_iso()))
+        r = self.c.get("/api/reports?learner=report1").get_json()["report"]
+        self.assertEqual((r["total_goals"],r["completed"],r["completion_rate"],r["overdue_count"]),(2,1,50.0,1))
+        self.assertEqual(r["breakdown"]["academic"]["count"],1)
+        self.assertEqual(r["breakdown"]["personal"]["count"],1)
+        self.assertEqual(r["average_progress"],60)

@@ -1,10 +1,6 @@
 .venv/
 __pycache__/
-*.py[cod]
-*.db
+learnwise.db
 .env
-instance/
-.pytest_cache/
 
 *.db
-
