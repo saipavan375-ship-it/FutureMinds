@@ -1,0 +1,722 @@
+[
+ {
+  "id": "PY_VAR_001",
+  "topic": "var",
+  "difficulty": "easy",
+  "text": "What is the type of 3.0 in Python?",
+  "options": [
+   "int",
+   "float",
+   "str",
+   "bool"
+  ],
+  "answer": 1,
+  "explanation": "A number with a decimal point is a float.",
+  "resource_id": "RES_VAR_LESSON"
+ },
+ {
+  "id": "PY_VAR_002",
+  "topic": "var",
+  "difficulty": "easy",
+  "text": "After x = 5 and x += 2, what is x?",
+  "options": [
+   "52",
+   "5",
+   "Error",
+   "7"
+  ],
+  "answer": 3,
+  "explanation": "x += 2 adds 2 to x, so x becomes 7.",
+  "resource_id": "RES_VAR_LESSON"
+ },
+ {
+  "id": "PY_VAR_003",
+  "topic": "var",
+  "difficulty": "easy",
+  "text": "Which is a valid variable name?",
+  "options": [
+   "2cats",
+   "my-var",
+   "class",
+   "_count"
+  ],
+  "answer": 3,
+  "explanation": "Names cannot start with a digit, contain hyphens, or be keywords.",
+  "resource_id": "RES_VAR_LESSON"
+ },
+ {
+  "id": "PY_VAR_004",
+  "topic": "var",
+  "difficulty": "medium",
+  "text": "What is int('5') + 2?",
+  "options": [
+   "7",
+   "52",
+   "Error",
+   "'52'"
+  ],
+  "answer": 0,
+  "explanation": "int('5') becomes the number 5, so the sum is 7.",
+  "resource_id": "RES_VAR_LESSON"
+ },
+ {
+  "id": "PY_OPS_001",
+  "topic": "ops",
+  "difficulty": "easy",
+  "text": "What is 7 // 2?",
+  "options": [
+   "3.5",
+   "3",
+   "4",
+   "2"
+  ],
+  "answer": 1,
+  "explanation": "// is floor division and drops the fraction.",
+  "resource_id": "RES_OPS_LESSON"
+ },
+ {
+  "id": "PY_OPS_002",
+  "topic": "ops",
+  "difficulty": "easy",
+  "text": "What is 7 % 3?",
+  "options": [
+   "2",
+   "1",
+   "3",
+   "0"
+  ],
+  "answer": 1,
+  "explanation": "% gives the remainder: 7 = 2*3 + 1.",
+  "resource_id": "RES_OPS_LESSON"
+ },
+ {
+  "id": "PY_OPS_003",
+  "topic": "ops",
+  "difficulty": "medium",
+  "text": "What is 2 ** 3?",
+  "options": [
+   "8",
+   "6",
+   "5",
+   "9"
+  ],
+  "answer": 0,
+  "explanation": "** is the power operator: 2 to the power 3 is 8.",
+  "resource_id": "RES_OPS_LESSON"
+ },
+ {
+  "id": "PY_OPS_004",
+  "topic": "ops",
+  "difficulty": "medium",
+  "text": "What is the value of 2 + 3 * 4?",
+  "options": [
+   "20",
+   "24",
+   "9",
+   "14"
+  ],
+  "answer": 3,
+  "explanation": "Multiplication happens before addition.",
+  "resource_id": "RES_OPS_LESSON"
+ },
+ {
+  "id": "PY_COND_001",
+  "topic": "cond",
+  "difficulty": "easy",
+  "text": "What does print('A' if 0 else 'B') show?",
+  "options": [
+   "A",
+   "B",
+   "Nothing",
+   "Error"
+  ],
+  "answer": 1,
+  "explanation": "0 counts as False, so the else value is used.",
+  "resource_id": "RES_COND_LESSON"
+ },
+ {
+  "id": "PY_COND_002",
+  "topic": "cond",
+  "difficulty": "easy",
+  "text": "Which operator needs both conditions to be True?",
+  "options": [
+   "or",
+   "and",
+   "not",
+   "in"
+  ],
+  "answer": 1,
+  "explanation": "and is True only when both sides are True.",
+  "resource_id": "RES_COND_LESSON"
+ },
+ {
+  "id": "PY_COND_003",
+  "topic": "cond",
+  "difficulty": "medium",
+  "text": "When does an elif block run?",
+  "options": [
+   "Always",
+   "Only after else",
+   "When earlier conditions were False and its own is True",
+   "Never"
+  ],
+  "answer": 2,
+  "explanation": "elif is checked only if the earlier conditions were False.",
+  "resource_id": "RES_COND_LESSON"
+ },
+ {
+  "id": "PY_COND_004",
+  "topic": "cond",
+  "difficulty": "medium",
+  "text": "What is the result of 5 > 3 and 2 > 4?",
+  "options": [
+   "True",
+   "False",
+   "Error",
+   "None"
+  ],
+  "answer": 1,
+  "explanation": "The second comparison is False, so and gives False.",
+  "resource_id": "RES_COND_LESSON"
+ },
+ {
+  "id": "PY_LOOP_001",
+  "topic": "loop",
+  "difficulty": "easy",
+  "text": "What does list(range(3)) give?",
+  "options": [
+   "[1, 2, 3]",
+   "[0, 1, 2, 3]",
+   "[0, 1, 2]",
+   "[3]"
+  ],
+  "answer": 2,
+  "explanation": "range(3) starts at 0 and stops before 3.",
+  "resource_id": "RES_LOOP_LESSON"
+ },
+ {
+  "id": "PY_LOOP_002",
+  "topic": "loop",
+  "difficulty": "easy",
+  "text": "How many times does for i in range(2, 5) repeat?",
+  "options": [
+   "2",
+   "4",
+   "3",
+   "5"
+  ],
+  "answer": 2,
+  "explanation": "It uses 2, 3 and 4, so three times.",
+  "resource_id": "RES_LOOP_LESSON"
+ },
+ {
+  "id": "PY_LOOP_003",
+  "topic": "loop",
+  "difficulty": "medium",
+  "text": "What does break do inside a loop?",
+  "options": [
+   "Skips one turn",
+   "Restarts the loop",
+   "Exits the loop",
+   "Ends the program"
+  ],
+  "answer": 2,
+  "explanation": "break leaves the loop immediately.",
+  "resource_id": "RES_LOOP_LESSON"
+ },
+ {
+  "id": "PY_LOOP_004",
+  "topic": "loop",
+  "difficulty": "medium",
+  "text": "What does sum(range(4)) give?",
+  "options": [
+   "6",
+   "10",
+   "4",
+   "3"
+  ],
+  "answer": 0,
+  "explanation": "range(4) is 0, 1, 2, 3 and they add up to 6.",
+  "resource_id": "RES_LOOP_LESSON"
+ },
+ {
+  "id": "PY_LIST_001",
+  "topic": "list",
+  "difficulty": "easy",
+  "text": "What is 'python'[1]?",
+  "options": [
+   "'p'",
+   "'t'",
+   "Error",
+   "'y'"
+  ],
+  "answer": 3,
+  "explanation": "Indexing starts at 0, so index 1 is 'y'.",
+  "resource_id": "RES_LIST_LESSON"
+ },
+ {
+  "id": "PY_LIST_002",
+  "topic": "list",
+  "difficulty": "easy",
+  "text": "Which method adds an item to the end of a list?",
+  "options": [
+   "append()",
+   "add()",
+   "push()",
+   "insert_end()"
+  ],
+  "answer": 0,
+  "explanation": "append() adds one item at the end.",
+  "resource_id": "RES_LIST_LESSON"
+ },
+ {
+  "id": "PY_LIST_003",
+  "topic": "list",
+  "difficulty": "medium",
+  "text": "What is len([1, 2, 3, 4][1:3])?",
+  "options": [
+   "2",
+   "1",
+   "3",
+   "4"
+  ],
+  "answer": 0,
+  "explanation": "The slice [1:3] holds the items at index 1 and 2.",
+  "resource_id": "RES_LIST_LESSON"
+ },
+ {
+  "id": "PY_LIST_004",
+  "topic": "list",
+  "difficulty": "medium",
+  "text": "What does 'a-b-c'.split('-') give?",
+  "options": [
+   "['a-b-c']",
+   "'abc'",
+   "['a', 'b', 'c']",
+   "Error"
+  ],
+  "answer": 2,
+  "explanation": "split() breaks the string at each separator.",
+  "resource_id": "RES_LIST_LESSON"
+ },
+ {
+  "id": "PY_FUNC_001",
+  "topic": "func",
+  "difficulty": "easy",
+  "text": "Which keyword defines a function?",
+  "options": [
+   "func",
+   "define",
+   "def",
+   "lambda"
+  ],
+  "answer": 2,
+  "explanation": "Functions are defined with def.",
+  "resource_id": "RES_FUNC_LESSON"
+ },
+ {
+  "id": "PY_FUNC_002",
+  "topic": "func",
+  "difficulty": "medium",
+  "text": "What does a function without a return statement give back?",
+  "options": [
+   "None",
+   "0",
+   "An empty string",
+   "Error"
+  ],
+  "answer": 0,
+  "explanation": "Without return, a function gives back None.",
+  "resource_id": "RES_FUNC_LESSON"
+ },
+ {
+  "id": "PY_FUNC_003",
+  "topic": "func",
+  "difficulty": "medium",
+  "text": "Given def f(a, b=2): return a + b, what is f(3)?",
+  "options": [
+   "3",
+   "5",
+   "Error",
+   "32"
+  ],
+  "answer": 1,
+  "explanation": "b defaults to 2, so f(3) is 3 + 2.",
+  "resource_id": "RES_FUNC_LESSON"
+ },
+ {
+  "id": "PY_FUNC_004",
+  "topic": "func",
+  "difficulty": "medium",
+  "text": "What does return do inside a function?",
+  "options": [
+   "Prints a value",
+   "Repeats the function",
+   "Ends the function and sends back a value",
+   "Deletes the function"
+  ],
+  "answer": 2,
+  "explanation": "return ends the function and hands a value to the caller.",
+  "resource_id": "RES_FUNC_LESSON"
+ },
+ {
+  "id": "PY_DICT_001",
+  "topic": "dict",
+  "difficulty": "easy",
+  "text": "How do you read the value for key 'a' in d = {'a': 1}?",
+  "options": [
+   "d.a",
+   "d(a)",
+   "d{a}",
+   "d['a']"
+  ],
+  "answer": 3,
+  "explanation": "Use square brackets with the key: d['a'].",
+  "resource_id": "RES_DICT_LESSON"
+ },
+ {
+  "id": "PY_DICT_002",
+  "topic": "dict",
+  "difficulty": "easy",
+  "text": "What does len({1, 2, 2, 3}) give?",
+  "options": [
+   "4",
+   "3",
+   "2",
+   "Error"
+  ],
+  "answer": 1,
+  "explanation": "A set keeps only unique items, so it has 3.",
+  "resource_id": "RES_DICT_LESSON"
+ },
+ {
+  "id": "PY_DICT_003",
+  "topic": "dict",
+  "difficulty": "medium",
+  "text": "What does {'a': 1}.get('b') return?",
+  "options": [
+   "Error",
+   "None",
+   "0",
+   "'b'"
+  ],
+  "answer": 1,
+  "explanation": "get() returns None when the key is missing.",
+  "resource_id": "RES_DICT_LESSON"
+ },
+ {
+  "id": "PY_DICT_004",
+  "topic": "dict",
+  "difficulty": "medium",
+  "text": "Which statement about dictionary keys is true?",
+  "options": [
+   "They can repeat",
+   "They must be unique",
+   "They must be numbers",
+   "They are sorted by value"
+  ],
+  "answer": 1,
+  "explanation": "Each key appears once; assigning it again replaces the value.",
+  "resource_id": "RES_DICT_LESSON"
+ },
+ {
+  "id": "PY_DEBUG_001",
+  "topic": "debug",
+  "difficulty": "easy",
+  "text": "What error does print(x) raise if x was never defined?",
+  "options": [
+   "SyntaxError",
+   "TypeError",
+   "ValueError",
+   "NameError"
+  ],
+  "answer": 3,
+  "explanation": "An undefined name raises NameError.",
+  "resource_id": "RES_DEBUG_LESSON"
+ },
+ {
+  "id": "PY_DEBUG_002",
+  "topic": "debug",
+  "difficulty": "easy",
+  "text": "What does '5' + 2 raise?",
+  "options": [
+   "ValueError",
+   "NameError",
+   "TypeError",
+   "No error"
+  ],
+  "answer": 2,
+  "explanation": "A string and an int cannot be added: TypeError.",
+  "resource_id": "RES_DEBUG_LESSON"
+ },
+ {
+  "id": "PY_DEBUG_003",
+  "topic": "debug",
+  "difficulty": "medium",
+  "text": "What error does int('abc') raise?",
+  "options": [
+   "TypeError",
+   "NameError",
+   "IndexError",
+   "ValueError"
+  ],
+  "answer": 3,
+  "explanation": "The type is fine but the value cannot be converted: ValueError.",
+  "resource_id": "RES_DEBUG_LESSON"
+ },
+ {
+  "id": "PY_DEBUG_004",
+  "topic": "debug",
+  "difficulty": "medium",
+  "text": "A while loop never ends. What is the most likely cause?",
+  "options": [
+   "The loop variable is never updated",
+   "Too many print calls",
+   "A long variable name",
+   "A missing comment"
+  ],
+  "answer": 0,
+  "explanation": "The condition must eventually become False, so something must change inside the loop.",
+  "resource_id": "RES_DEBUG_LESSON"
+ },
+ {
+  "id": "PY_VAR_005",
+  "topic": "var",
+  "difficulty": "easy",
+  "text": "Which value has the type bool?",
+  "options": [
+   "'True'",
+   "1",
+   "'1'",
+   "True"
+  ],
+  "answer": 3,
+  "explanation": "True without quotes is a bool; 'True' in quotes is a string.",
+  "resource_id": "RES_VAR_LESSON"
+ },
+ {
+  "id": "PY_OPS_005",
+  "topic": "ops",
+  "difficulty": "medium",
+  "text": "What is 10 / 4 in Python 3?",
+  "options": [
+   "2.5",
+   "2",
+   "2.0",
+   "3"
+  ],
+  "answer": 0,
+  "explanation": "/ always gives a float, so the result is 2.5.",
+  "resource_id": "RES_OPS_LESSON"
+ },
+ {
+  "id": "PY_COND_005",
+  "topic": "cond",
+  "difficulty": "easy",
+  "text": "What does not (3 > 2) give?",
+  "options": [
+   "True",
+   "Error",
+   "3",
+   "False"
+  ],
+  "answer": 3,
+  "explanation": "3 > 2 is True and not flips it to False.",
+  "resource_id": "RES_COND_LESSON"
+ },
+ {
+  "id": "PY_LOOP_005",
+  "topic": "loop",
+  "difficulty": "medium",
+  "text": "What does continue do inside a loop?",
+  "options": [
+   "Skips the rest of this turn and moves to the next",
+   "Exits the loop",
+   "Restarts from the first item",
+   "Ends the program"
+  ],
+  "answer": 0,
+  "explanation": "continue jumps straight to the next turn of the loop.",
+  "resource_id": "RES_LOOP_LESSON"
+ },
+ {
+  "id": "PY_LIST_005",
+  "topic": "list",
+  "difficulty": "easy",
+  "text": "What does [1, 2] + [3] give?",
+  "options": [
+   "[1, 2, 3]",
+   "[4, 3]",
+   "[1, 2, [3]]",
+   "Error"
+  ],
+  "answer": 0,
+  "explanation": "+ joins two lists into one new list.",
+  "resource_id": "RES_LIST_LESSON"
+ },
+ {
+  "id": "PY_FUNC_005",
+  "topic": "func",
+  "difficulty": "medium",
+  "text": "What is a parameter?",
+  "options": [
+   "A value a function returns",
+   "A loop variable",
+   "A name in the def line that receives a value",
+   "A type of error"
+  ],
+  "answer": 2,
+  "explanation": "Parameters are the names listed in def; callers supply the values.",
+  "resource_id": "RES_FUNC_LESSON"
+ },
+ {
+  "id": "PY_DICT_005",
+  "topic": "dict",
+  "difficulty": "easy",
+  "text": "How do you add the key 'b' with value 2 to a dictionary d?",
+  "options": [
+   "d.add('b', 2)",
+   "d.append('b', 2)",
+   "d(b) = 2",
+   "d['b'] = 2"
+  ],
+  "answer": 3,
+  "explanation": "Assigning with square brackets adds the key, or replaces its value.",
+  "resource_id": "RES_DICT_LESSON"
+ },
+ {
+  "id": "PY_DEBUG_005",
+  "topic": "debug",
+  "difficulty": "medium",
+  "text": "What does an IndexError mean?",
+  "options": [
+   "A name is not defined",
+   "A string cannot be converted",
+   "The indentation is wrong",
+   "A list position does not exist"
+  ],
+  "answer": 3,
+  "explanation": "IndexError means the position is outside the list, like [1, 2, 3][5].",
+  "resource_id": "RES_DEBUG_LESSON"
+ },
+ {
+  "id": "PY_VAR_006",
+  "topic": "var",
+  "difficulty": "hard",
+  "text": "a = b = [1] and then b.append(2). What does print(a) show?",
+  "options": [
+   "[1]",
+   "[2]",
+   "[1, 2]",
+   "Error"
+  ],
+  "answer": 2,
+  "explanation": "a and b name the same list, so changing it through b also changes a.",
+  "resource_id": "RES_VAR_LESSON"
+ },
+ {
+  "id": "PY_OPS_006",
+  "topic": "ops",
+  "difficulty": "hard",
+  "text": "What is -7 // 2?",
+  "options": [
+   "-3",
+   "-3.5",
+   "-4",
+   "3"
+  ],
+  "answer": 2,
+  "explanation": "// rounds down toward negative infinity, so -3.5 becomes -4.",
+  "resource_id": "RES_OPS_LESSON"
+ },
+ {
+  "id": "PY_COND_006",
+  "topic": "cond",
+  "difficulty": "hard",
+  "text": "What does print(1 or 2 and 0) show?",
+  "options": [
+   "0",
+   "2",
+   "1",
+   "True"
+  ],
+  "answer": 2,
+  "explanation": "and is evaluated before or: 2 and 0 is 0, then 1 or 0 is 1.",
+  "resource_id": "RES_COND_LESSON"
+ },
+ {
+  "id": "PY_LOOP_006",
+  "topic": "loop",
+  "difficulty": "hard",
+  "text": "After for i in range(3): pass has run, what is i?",
+  "options": [
+   "0",
+   "2",
+   "3",
+   "Error"
+  ],
+  "answer": 1,
+  "explanation": "The loop variable keeps its last value, which is 2.",
+  "resource_id": "RES_LOOP_LESSON"
+ },
+ {
+  "id": "PY_LIST_006",
+  "topic": "list",
+  "difficulty": "hard",
+  "text": "What is [1, 2, 3][::-1]?",
+  "options": [
+   "[1, 2, 3]",
+   "[3, 2, 1]",
+   "[2, 1]",
+   "Error"
+  ],
+  "answer": 1,
+  "explanation": "A step of -1 reads the list backwards.",
+  "resource_id": "RES_LIST_LESSON"
+ },
+ {
+  "id": "PY_FUNC_006",
+  "topic": "func",
+  "difficulty": "hard",
+  "text": "Given def f(x, items=[]): items.append(x); return items, what does f(2) return if f(1) was called first?",
+  "options": [
+   "[1, 2]",
+   "[2]",
+   "[1]",
+   "Error"
+  ],
+  "answer": 0,
+  "explanation": "The default list is created once and reused, so it still holds 1.",
+  "resource_id": "RES_FUNC_LESSON"
+ },
+ {
+  "id": "PY_DICT_006",
+  "topic": "dict",
+  "difficulty": "hard",
+  "text": "What happens when you run d = {}; d[[1, 2]] = 'a'?",
+  "options": [
+   "TypeError",
+   "KeyError",
+   "ValueError",
+   "It works fine"
+  ],
+  "answer": 0,
+  "explanation": "Lists are mutable and not hashable, so they cannot be dictionary keys.",
+  "resource_id": "RES_DICT_LESSON"
+ },
+ {
+  "id": "PY_DEBUG_006",
+  "topic": "debug",
+  "difficulty": "hard",
+  "text": "A function prints the right value but the caller receives None. What is the likely bug?",
+  "options": [
+   "The function name is too long",
+   "The variable is a string",
+   "The loop is empty",
+   "It uses print instead of return"
+  ],
+  "answer": 3,
+  "explanation": "print shows a value on screen but does not hand it back; use return.",
+  "resource_id": "RES_DEBUG_LESSON"
+ }
+]
