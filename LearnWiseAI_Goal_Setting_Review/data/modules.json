@@ -1,0 +1,306 @@
+[
+ {
+  "topic": "var",
+  "title": "Variables and data types",
+  "explain": "A variable is a name that points to a value. The value has a type such as int, float, str or bool, and the type decides what you can do with it.",
+  "analogy": "Think of a labelled box: the label is the variable name and the thing inside is the value.",
+  "code": "price = 40        # int\nname = 'Asha'     # str\nprice = price + 5\nprint(name, price, type(price))",
+  "takeaway": "Names point to values, and type() tells you what kind of value it is.",
+  "practice": [
+   {
+    "id": "PRAC_VAR_1",
+    "kind": "output",
+    "prompt": "What does this code print?",
+    "code": "x = 3\ny = x\nx = 10\nprint(y)",
+    "options": [
+     "10",
+     "13",
+     "Error",
+     "3"
+    ],
+    "answer": 3,
+    "explanation": "y was set to 3 when it was created. Changing x afterwards does not change y."
+   },
+   {
+    "id": "PRAC_VAR_2",
+    "kind": "bug",
+    "prompt": "This code should print a total but crashes. Which line causes the problem?",
+    "code": "a = 5\nb = '2'\nprint('Total:', a + b)",
+    "options": [
+     "Line 1: a = 5",
+     "Line 3: print",
+     "Line 2: b is a string",
+     "There is no bug"
+    ],
+    "answer": 2,
+    "explanation": "a + b adds a number and a string, which raises a TypeError. Use int(b) or write b = 2."
+   }
+  ]
+ },
+ {
+  "topic": "ops",
+  "title": "Operators and expressions",
+  "explain": "Operators combine values. Besides + - * /, Python has // for whole-number division, % for the remainder and ** for powers. Multiplication and ** run before + and -.",
+  "analogy": "Sharing 17 sweets among 5 friends: 17 // 5 is 3 sweets each, and 17 % 5 is the 2 left over.",
+  "code": "sweets = 17\nfriends = 5\nprint(sweets // friends)   # 3\nprint(sweets % friends)    # 2\nprint(2 + 3 * 4)           # 14",
+  "takeaway": "// gives the whole part, % gives the leftover, and * runs before +.",
+  "practice": [
+   {
+    "id": "PRAC_OPS_1",
+    "kind": "output",
+    "prompt": "What does this code print?",
+    "code": "print(9 % 4, 9 // 4)",
+    "options": [
+     "2 1",
+     "2.25 2",
+     "1 2.25",
+     "1 2"
+    ],
+    "answer": 3,
+    "explanation": "9 divided by 4 is 2 remainder 1, so % gives 1 and // gives 2."
+   },
+   {
+    "id": "PRAC_OPS_2",
+    "kind": "bug",
+    "prompt": "A program should print the average of 4 and 6, which is 5.0, but it prints 7.0. What is wrong?",
+    "code": "print(4 + 6 / 2)",
+    "options": [
+     "print cannot divide",
+     "Division runs before addition, so use (4 + 6) / 2",
+     "The numbers must be strings",
+     "Nothing is wrong"
+    ],
+    "answer": 1,
+    "explanation": "6 / 2 is calculated first, giving 4 + 3.0 = 7.0. Brackets make the addition happen first."
+   }
+  ]
+ },
+ {
+  "topic": "cond",
+  "title": "Conditionals",
+  "explain": "An if statement runs a block only when its condition is True. elif tries another condition if the earlier ones were False, and else is the fallback. Python treats 0, empty text and empty lists as False.",
+  "analogy": "A traffic signal: if red, stop; elif amber, get ready; else go.",
+  "code": "marks = 72\nif marks >= 90:\n    print('A')\nelif marks >= 60:\n    print('B')\nelse:\n    print('Keep practising')",
+  "takeaway": "Conditions are checked from top to bottom, and only the first True branch runs.",
+  "practice": [
+   {
+    "id": "PRAC_COND_1",
+    "kind": "output",
+    "prompt": "What does this code print?",
+    "code": "n = 15\nif n > 10:\n    print('big')\nelif n > 5:\n    print('medium')\nelse:\n    print('small')",
+    "options": [
+     "medium",
+     "big",
+     "big and medium",
+     "small"
+    ],
+    "answer": 1,
+    "explanation": "The first True condition wins, and the remaining branches are skipped."
+   },
+   {
+    "id": "PRAC_COND_2",
+    "kind": "bug",
+    "prompt": "This code crashes with a SyntaxError. Why?",
+    "code": "age = 20\nif age = 18:\n    print('adult')",
+    "options": [
+     "if needs an else",
+     "print needs quotes",
+     "age must be a string",
+     "= assigns a value; use == to compare"
+    ],
+    "answer": 3,
+    "explanation": "A single = assigns. Use == to compare, or >= for 'at least'."
+   }
+  ]
+ },
+ {
+  "topic": "loop",
+  "title": "Loops and range()",
+  "explain": "A for loop repeats a block for each item in a sequence. range(n) gives 0 up to n-1, and range(a, b) gives a up to b-1. break leaves a loop early and continue skips to the next turn.",
+  "analogy": "Handing out exam papers row by row: the same action repeated for each student.",
+  "code": "total = 0\nfor i in range(1, 4):\n    total = total + i\nprint(total)   # 1 + 2 + 3 = 6",
+  "takeaway": "range(a, b) stops before b, so the loop body runs b - a times.",
+  "practice": [
+   {
+    "id": "PRAC_LOOP_1",
+    "kind": "output",
+    "prompt": "What does this code print?",
+    "code": "for i in range(3):\n    print(i * 2)",
+    "options": [
+     "0, 2, 4 (one per line)",
+     "2, 4, 6 (one per line)",
+     "0, 1, 2 (one per line)",
+     "0, 2, 4, 6 (one per line)"
+    ],
+    "answer": 0,
+    "explanation": "range(3) gives 0, 1, 2, and each value is doubled."
+   },
+   {
+    "id": "PRAC_LOOP_2",
+    "kind": "bug",
+    "prompt": "This loop should print 1 to 5 but misses 5. Which fix is right?",
+    "code": "for i in range(1, 5):\n    print(i)",
+    "options": [
+     "Use range(5)",
+     "Use range(1, 6)",
+     "Use range(0, 5)",
+     "Use print(i + 1)"
+    ],
+    "answer": 1,
+    "explanation": "range stops before its second number, so use 6 to include 5."
+   }
+  ]
+ },
+ {
+  "topic": "list",
+  "title": "Strings and lists",
+  "explain": "Strings and lists are sequences: each item has a position that starts at 0. A slice s[a:b] takes positions a up to b-1. Lists can change with methods such as append(), but strings cannot be changed in place.",
+  "analogy": "A train: each coach has a number starting from 0, and you can pick a stretch of coaches.",
+  "code": "word = 'python'\nprint(word[0])      # p\nprint(word[1:4])    # yth\nmarks = [70, 85]\nmarks.append(90)\nprint(marks)        # [70, 85, 90]",
+  "takeaway": "Positions start at 0, and a slice stops before its end index.",
+  "practice": [
+   {
+    "id": "PRAC_LIST_1",
+    "kind": "output",
+    "prompt": "What does this code print?",
+    "code": "letters = ['a', 'b', 'c', 'd']\nprint(letters[1:3])",
+    "options": [
+     "['b', 'c']",
+     "['a', 'b', 'c']",
+     "['b', 'c', 'd']",
+     "['b']"
+    ],
+    "answer": 0,
+    "explanation": "The slice starts at position 1 and stops before position 3."
+   },
+   {
+    "id": "PRAC_LIST_2",
+    "kind": "bug",
+    "prompt": "This code should print 'c' but raises an IndexError. Why?",
+    "code": "items = ['a', 'b', 'c']\nprint(items[3])",
+    "options": [
+     "The last position is 2, not 3",
+     "Lists cannot be printed",
+     "items needs a number",
+     "append is missing"
+    ],
+    "answer": 0,
+    "explanation": "A list of 3 items has positions 0, 1 and 2. Use items[2] or items[-1]."
+   }
+  ]
+ },
+ {
+  "topic": "func",
+  "title": "Functions and return values",
+  "explain": "A function packages steps under a name so you can reuse them. def starts it, parameters receive values, and return sends a result back. A function without return gives back None.",
+  "analogy": "A recipe card: give it ingredients (parameters) and it hands back a dish (the return value).",
+  "code": "def area(width, height=1):\n    return width * height\n\nprint(area(4, 3))   # 12\nprint(area(5))      # 5",
+  "takeaway": "return hands a value back, while print only shows it on screen.",
+  "practice": [
+   {
+    "id": "PRAC_FUNC_1",
+    "kind": "output",
+    "prompt": "What does this code print?",
+    "code": "def double(x):\n    return x * 2\n\nprint(double(4) + 1)",
+    "options": [
+     "8",
+     "9",
+     "10",
+     "Error"
+    ],
+    "answer": 1,
+    "explanation": "double(4) gives 8, and 8 + 1 is 9."
+   },
+   {
+    "id": "PRAC_FUNC_2",
+    "kind": "bug",
+    "prompt": "This prints 10 and then None. Why is result None?",
+    "code": "def add(a, b):\n    print(a + b)\n\nresult = add(4, 6)\nprint(result)",
+    "options": [
+     "add prints the sum but does not return it",
+     "add has too many parameters",
+     "result is a reserved word",
+     "4 and 6 are strings"
+    ],
+    "answer": 0,
+    "explanation": "print shows the sum but the function returns nothing, so result is None. Use return a + b."
+   }
+  ]
+ },
+ {
+  "topic": "dict",
+  "title": "Dictionaries and sets",
+  "explain": "A dictionary stores key-value pairs and finds a value by its key. Keys are unique. d.get(key) returns None instead of an error when the key is missing. A set stores only unique items.",
+  "analogy": "A phone contacts list: look up the name (key) to get the number (value).",
+  "code": "marks = {'maths': 80, 'python': 90}\nmarks['physics'] = 75\nprint(marks['python'])         # 90\nprint(marks.get('chemistry'))  # None\nprint(len({1, 2, 2, 3}))       # 3",
+  "takeaway": "Look values up by key, and remember that sets keep each item only once.",
+  "practice": [
+   {
+    "id": "PRAC_DICT_1",
+    "kind": "output",
+    "prompt": "What does this code print?",
+    "code": "d = {'a': 1, 'b': 2}\nd['a'] = 5\nprint(d)",
+    "options": [
+     "{'a': 1, 'b': 2}",
+     "{'a': 1, 'a': 5, 'b': 2}",
+     "Error",
+     "{'a': 5, 'b': 2}"
+    ],
+    "answer": 3,
+    "explanation": "Assigning to an existing key replaces its value, because keys are unique."
+   },
+   {
+    "id": "PRAC_DICT_2",
+    "kind": "bug",
+    "prompt": "This code crashes with a KeyError. Which fix avoids the crash?",
+    "code": "stock = {'pen': 10}\nprint(stock['book'])",
+    "options": [
+     "Use stock('book')",
+     "Use stock.book",
+     "Use stock.get('book')",
+     "Use stock[book]"
+    ],
+    "answer": 2,
+    "explanation": "get() returns None when the key is missing instead of raising a KeyError."
+   }
+  ]
+ },
+ {
+  "topic": "debug",
+  "title": "Debugging and problem solving",
+  "explain": "Debugging means finding why code behaves differently from what you expected. Read the last line of an error first: NameError means a name is not defined, TypeError means a wrong type for an operation, and IndexError means a position does not exist. Add print() to check values step by step.",
+  "analogy": "A doctor reading symptoms: the error message is the symptom, and print() is the test that locates the cause.",
+  "code": "total = 0\nfor n in [4, 6, 8]:\n    total = total + n\n    print('n =', n, 'total =', total)   # trace the values\nprint(total)",
+  "takeaway": "Read the error name first, then trace values with print().",
+  "practice": [
+   {
+    "id": "PRAC_DEBUG_1",
+    "kind": "output",
+    "prompt": "Which error does this code raise?",
+    "code": "x = 5\nprint(y)",
+    "options": [
+     "TypeError",
+     "SyntaxError",
+     "NameError",
+     "IndexError"
+    ],
+    "answer": 2,
+    "explanation": "y was never defined, so Python raises a NameError."
+   },
+   {
+    "id": "PRAC_DEBUG_2",
+    "kind": "bug",
+    "prompt": "This loop should stop after 3 turns but runs forever. What is the bug?",
+    "code": "count = 0\nwhile count < 3:\n    print(count)",
+    "options": [
+     "while needs an else",
+     "3 should be a string",
+     "count is never increased",
+     "print is wrong"
+    ],
+    "answer": 2,
+    "explanation": "The condition count < 3 never becomes False because count never changes. Add count = count + 1."
+   }
+  ]
+ }
+]
